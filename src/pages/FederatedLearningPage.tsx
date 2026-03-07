@@ -156,23 +156,26 @@ const FederatedLearningPage = () => {
         {!isConnected ? (
           <NotConnectedState onConnectMock={() => wallet.connectMock()} />
         ) : (
-          <div className="flex gap-6">
-            {/* Sidebar toggle (always visible) */}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="hidden lg:flex fixed top-[8.5rem] z-30 items-center justify-center w-7 h-7 rounded-full border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted transition-colors shadow-sm"
-              style={{ left: sidebarOpen ? 212 : 16 }}
-              title={sidebarOpen ? "Hide menu" : "Show menu"}
-            >
-              {sidebarOpen ? <PanelLeftClose className="w-3.5 h-3.5" /> : <PanelLeftOpen className="w-3.5 h-3.5" />}
-            </button>
+          <div className="flex gap-6 relative">
+            {/* Show menu button — visible when sidebar is hidden */}
+            {!sidebarOpen && (
+              <motion.button
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                onClick={() => setSidebarOpen(true)}
+                className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-card text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors shadow-sm shrink-0 self-start sticky top-32"
+              >
+                <PanelLeftOpen className="w-4 h-4" />
+                <span>Menu</span>
+              </motion.button>
+            )}
 
             {/* ── Left Sidebar (fully hideable) ── */}
-            <AnimatePresence>
+            <AnimatePresence initial={false}>
               {sidebarOpen && (
                 <motion.aside
                   initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: 180, opacity: 1 }}
+                  animate={{ width: 190, opacity: 1 }}
                   exit={{ width: 0, opacity: 0 }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   className="hidden lg:flex flex-col shrink-0 overflow-hidden"
@@ -194,16 +197,27 @@ const FederatedLearningPage = () => {
                         onClick={() => setActiveTab(item.id)}
                         title={item.label}
                         className={cn(
-                          "w-full flex items-center gap-2.5 rounded-lg text-sm font-medium transition-colors px-3 py-2.5",
+                          "w-full flex items-center gap-2.5 rounded-lg text-sm font-medium transition-colors px-3 py-2.5 whitespace-nowrap",
                           activeTab === item.id
                             ? "bg-primary/10 text-primary border-l-2 border-primary"
                             : "text-muted-foreground hover:bg-muted hover:text-foreground"
                         )}
                       >
                         <item.icon className="w-4 h-4 shrink-0" />
-                        <span className="truncate">{item.label}</span>
+                        <span>{item.label}</span>
                       </button>
                     ))}
+
+                    {/* Hide menu button at bottom */}
+                    <div className="pt-4 border-t border-border mt-4">
+                      <button
+                        onClick={() => setSidebarOpen(false)}
+                        className="w-full flex items-center gap-2.5 rounded-lg text-sm font-medium px-3 py-2.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors whitespace-nowrap"
+                      >
+                        <PanelLeftClose className="w-4 h-4 shrink-0" />
+                        <span>Hide Menu</span>
+                      </button>
+                    </div>
                   </div>
                 </motion.aside>
               )}
