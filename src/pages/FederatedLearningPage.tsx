@@ -157,58 +157,57 @@ const FederatedLearningPage = () => {
           <NotConnectedState onConnectMock={() => wallet.connectMock()} />
         ) : (
           <div className="flex gap-6">
-            {/* ── Left Sidebar (retractable) ── */}
-            <motion.aside
-              initial={false}
-              animate={{ width: sidebarOpen ? 180 : 48 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="hidden lg:flex flex-col shrink-0 overflow-hidden"
+            {/* Sidebar toggle (always visible) */}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="hidden lg:flex fixed top-[8.5rem] z-30 items-center justify-center w-7 h-7 rounded-full border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted transition-colors shadow-sm"
+              style={{ left: sidebarOpen ? 212 : 16 }}
+              title={sidebarOpen ? "Hide menu" : "Show menu"}
             >
-              <div className="sticky top-32 space-y-1">
-                <button
-                  onClick={() => setSidebarOpen(!sidebarOpen)}
-                  className="w-full flex items-center justify-center p-2 mb-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                  title={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+              {sidebarOpen ? <PanelLeftClose className="w-3.5 h-3.5" /> : <PanelLeftOpen className="w-3.5 h-3.5" />}
+            </button>
+
+            {/* ── Left Sidebar (fully hideable) ── */}
+            <AnimatePresence>
+              {sidebarOpen && (
+                <motion.aside
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: 180, opacity: 1 }}
+                  exit={{ width: 0, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="hidden lg:flex flex-col shrink-0 overflow-hidden"
                 >
-                  {sidebarOpen ? <PanelLeftClose className="w-4 h-4" /> : <PanelLeftOpen className="w-4 h-4" />}
-                </button>
-                {([
-                  { id: "dashboard", icon: Home, label: "Dashboard" },
-                  { id: "clients", icon: Cpu, label: "My Clients" },
-                  { id: "submissions", icon: Send, label: "Submissions" },
-                  { id: "rewards", icon: Gift, label: "Rewards" },
-                  { id: "usc", icon: ShieldCheck, label: "USC Verify" },
-                  { id: "dualchain", icon: Layers, label: "Dual-Chain" },
-                  { id: "credal", icon: Award, label: "CHW Reputation" },
-                  { id: "depin", icon: Radio, label: "DePIN IoT" },
-                  { id: "docs", icon: BookOpen, label: "Documentation" },
-                ] as const).map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveTab(item.id)}
-                    title={item.label}
-                    className={cn(
-                      "w-full flex items-center gap-2.5 rounded-lg text-sm font-medium transition-colors",
-                      sidebarOpen ? "px-3 py-2.5" : "justify-center px-0 py-2.5",
-                      activeTab === item.id
-                        ? "bg-primary/10 text-primary border-l-2 border-primary"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                    )}
-                  >
-                    <item.icon className="w-4 h-4 shrink-0" />
-                    {sidebarOpen && (
-                      <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="truncate"
+                  <div className="sticky top-32 space-y-1">
+                    {([
+                      { id: "dashboard", icon: Home, label: "Dashboard" },
+                      { id: "clients", icon: Cpu, label: "My Clients" },
+                      { id: "submissions", icon: Send, label: "Submissions" },
+                      { id: "rewards", icon: Gift, label: "Rewards" },
+                      { id: "usc", icon: ShieldCheck, label: "USC Verify" },
+                      { id: "dualchain", icon: Layers, label: "Dual-Chain" },
+                      { id: "credal", icon: Award, label: "CHW Reputation" },
+                      { id: "depin", icon: Radio, label: "DePIN IoT" },
+                      { id: "docs", icon: BookOpen, label: "Documentation" },
+                    ] as const).map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => setActiveTab(item.id)}
+                        title={item.label}
+                        className={cn(
+                          "w-full flex items-center gap-2.5 rounded-lg text-sm font-medium transition-colors px-3 py-2.5",
+                          activeTab === item.id
+                            ? "bg-primary/10 text-primary border-l-2 border-primary"
+                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        )}
                       >
-                        {item.label}
-                      </motion.span>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </motion.aside>
+                        <item.icon className="w-4 h-4 shrink-0" />
+                        <span className="truncate">{item.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </motion.aside>
+              )}
+            </AnimatePresence>
 
             {/* ── Main Content ── */}
             <main className="flex-1 min-w-0 space-y-6">
