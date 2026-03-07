@@ -92,6 +92,14 @@ class Settings(BaseSettings):
     PINATA_API_KEY: Optional[str] = Field(None, env="PINATA_API_KEY")
     PINATA_SECRET_API_KEY: Optional[str] = Field(None, env="PINATA_SECRET_API_KEY")
 
+    # DePIN + Edge AI (sensors, edge devices, optional PostgreSQL)
+    DEPIN_DATABASE_URI: Optional[str] = Field(
+        None, env="DEPIN_DATABASE_URI"
+    )  # e.g. postgresql+pg8000://user:pass@host/db or sqlite:///./depin.db
+    DEPIN_PIN_SENSOR_DATA: bool = Field(True, env="DEPIN_PIN_SENSOR_DATA")
+    DEPIN_ANCHOR_SENSOR_DATA: bool = Field(False, env="DEPIN_ANCHOR_SENSOR_DATA")
+    DEPIN_ANCHOR_INFERENCE: bool = Field(False, env="DEPIN_ANCHOR_INFERENCE")
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
