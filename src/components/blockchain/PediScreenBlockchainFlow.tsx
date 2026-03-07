@@ -1,5 +1,5 @@
 // src/components/blockchain/PediScreenBlockchainFlow.tsx
-// COMPLETE KAGGLE DEMO: wallet → screening → IPFS (mock) → NFT (mock)
+// COMPLETE DEMO: wallet → screening → IPFS (mock) → NFT (mock)
 
 import { useState } from "react";
 
@@ -126,7 +126,7 @@ export function PediScreenBlockchainFlow() {
         verified: true,
         txHash: mockNFT.txHash,
         childAgeMonths: screeningResult.age,
-        keyFindings: ["Mock MedGemma summary for Kaggle demo"],
+        keyFindings: ["Mock AI summary for demo"],
       },
     ]);
     setStep("success");

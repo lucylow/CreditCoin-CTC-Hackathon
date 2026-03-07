@@ -1,5 +1,5 @@
 // src/components/blockchain/OracleDashboard.tsx
-// Chainlink oracle dashboard (mock multi-card view for Kaggle demo).
+// Oracle dashboard (mock multi-card view for demo).
 
 import { MOCK_WALLET_DATA } from "@/data/mockWallet";
 import { cn } from "@/lib/utils";
@@ -21,8 +21,8 @@ export function OracleDashboard() {
             <div className="w-4 h-4 bg-emerald-500 rounded-full animate-ping" />
           </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Independent re-execution confirms MedGemma inference matches on-chain
-            screening certificates. Perfect for a reliable Kaggle demo, even when
+            Independent re-execution confirms AI inference matches on-chain
+            screening certificates. Perfect for a reliable demo, even when
             the live oracle is offline.
           </p>
         </div>
