@@ -173,6 +173,7 @@ const PediScreenLayout = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const [sheetOpen, setSheetOpen] = React.useState(false);
+  const [sidebarOpen, setSidebarOpen] = React.useState(true);
   const breadcrumbs = getBreadcrumbs(location.pathname);
 
   return (
