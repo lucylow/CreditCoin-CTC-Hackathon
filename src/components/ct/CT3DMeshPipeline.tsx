@@ -47,8 +47,8 @@ const PIPELINE_STEPS: PipelineStep[] = [
   },
   {
     id: "infer",
-    label: "MedGemma 3D inference",
-    description: "Run quantized MedGemma-2B-IT-Q4 on 3D patches to produce CT findings.",
+    label: "AI 3D inference",
+    description: "Run quantized AI model on 3D patches to produce CT findings.",
   },
   {
     id: "visualize",
@@ -401,7 +401,7 @@ export const CT3DMeshPipeline: React.FC<CT3DMeshPipelineProps> = ({ className })
             )}
             {inferResp && (
               <div className="space-y-1">
-                <p className="font-semibold text-foreground/80 text-xs">MedGemma 3D findings</p>
+                <p className="font-semibold text-foreground/80 text-xs">AI 3D findings</p>
                 <div className="grid gap-1">
                   {inferResp.findings?.length ? (
                     inferResp.findings.map((f) => (
