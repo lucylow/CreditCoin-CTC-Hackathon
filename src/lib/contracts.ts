@@ -5,7 +5,7 @@ import { PEDISCREEN_REGISTRY_ADDRESS } from "@/config/blockchain";
 export const PEDISCREEN_NFT_ADDRESS =
   (import.meta.env.VITE_PEDISCREEN_NFT_ADDRESS as string | undefined) ||
   PEDISCREEN_REGISTRY_ADDRESS ||
-  // Fallback demo address (Polygon) used in AccessibleNFTGallery links.
+  // Fallback demo address (Creditcoin) used in AccessibleNFTGallery links.
   "0x742d35Cc6b6DBcF823d80ADa7017a40A9D0e6637";
 
 // Minimal ABI fragment for a custom screening NFT contract.
