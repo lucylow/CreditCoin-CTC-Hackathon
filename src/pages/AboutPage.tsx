@@ -26,7 +26,7 @@ export default function AboutPage() {
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary/10 mb-6">
           <Baby className="w-10 h-10 text-primary" />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">About PediScreen AI</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">About PediScreen</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           MedGemma-powered pediatric developmental screening for community health workers and clinicians.
         </p>
@@ -47,7 +47,7 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground">
               <p>
-                PediScreen AI organizes, contextualizes, and communicates screening evidence so clinicians can make
+                PediScreen organizes, contextualizes, and communicates screening evidence so clinicians can make
                 more informed decisions. We focus on the critical window of early childhood development—when
                 identification and support matter most.
               </p>

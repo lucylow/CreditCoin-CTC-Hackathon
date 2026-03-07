@@ -194,7 +194,7 @@ const PediScreenLayout = () => {
                       <Baby className="w-6 h-6" />
                     </div>
                     <div>
-                      <span className="text-lg font-bold block">PediScreen AI</span>
+                      <span className="text-lg font-bold block">PediScreen</span>
                       <span className="text-xs text-primary-foreground/70 flex items-center gap-1">
                         <Sparkles className="w-3 h-3" /> Powered by MedGemma
                       </span>
@@ -216,7 +216,7 @@ const PediScreenLayout = () => {
               <div className="w-9 h-9 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
                 <Baby className="w-5 h-5" />
               </div>
-              <h1 className="text-lg font-bold">PediScreen AI</h1>
+              <h1 className="text-lg font-bold">PediScreen</h1>
             </Link>
           </div>
           

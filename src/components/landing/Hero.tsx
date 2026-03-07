@@ -38,7 +38,7 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
         >
-          PediScreen AI leverages Google's MedGemma model to provide accessible, private
+          PediScreen leverages AI to provide accessible, private
           developmental screening for children aged 0–5, helping identify delays when
           intervention matters most.
         </motion.p>

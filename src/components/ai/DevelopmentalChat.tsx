@@ -93,7 +93,7 @@ export default function DevelopmentalChat({
                   <Stethoscope className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-foreground">PediScreen AI</h3>
+                  <h3 className="text-sm font-semibold text-foreground">PediScreen</h3>
                   <p className="text-[10px] text-muted-foreground">Developmental Guidance</p>
                 </div>
               </div>

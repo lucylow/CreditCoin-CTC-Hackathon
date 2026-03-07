@@ -51,7 +51,7 @@ const GuidelinesPage = () => {
         <div className="mb-10">
           <h1 className="text-3xl font-bold mb-2">Clinical Guidelines</h1>
           <p className="text-muted-foreground text-lg">
-            Evidence-based references for developmental screening. PediScreen AI aligns with these standards; it does not replace clinical judgment.
+            Evidence-based references for developmental screening. PediScreen aligns with these standards; it does not replace clinical judgment.
           </p>
         </div>
 
