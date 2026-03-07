@@ -1,12 +1,12 @@
 import { BrowserProvider, Contract } from "ethers";
 
-import { PEDISCREEN_REGISTRY_ADDRESS } from "@/config/blockchain";
+import { PEDISCREEN_NFT_ADDRESS as CONFIG_NFT_ADDRESS } from "@/config/blockchain";
 
+/** Creditcoin: set VITE_PEDISCREEN_NFT_ADDRESS. Minting is via backend POST /api/creditcoin/screening/mint (CHW_ROLE). */
 export const PEDISCREEN_NFT_ADDRESS =
-  (import.meta.env.VITE_PEDISCREEN_NFT_ADDRESS as string | undefined) ||
-  PEDISCREEN_REGISTRY_ADDRESS ||
-  // Fallback demo address (Creditcoin) used in AccessibleNFTGallery links.
-  "0x742d35Cc6b6DBcF823d80ADa7017a40A9D0e6637";
+  CONFIG_NFT_ADDRESS ||
+  (import.meta.env.VITE_PEDISCREEN_REGISTRY_ADDRESS as string | undefined) ||
+  "";
 
 // Minimal ABI fragment for a custom screening NFT contract.
 // The actual deployed contract may include additional methods/events;

@@ -15,6 +15,7 @@ PediScreen uses on-chain/off-chain records for HIPAA-compliant screening hashes,
 
 Deploy:
 
+- **Creditcoin EVM (CTC):** `npx hardhat run scripts/deploy-creditcoin.js --network creditcoinTestnet` — PediScreen NFT, RiskEngine, CHWRegistry, PEDISC. See [CREDITCOIN_INTEGRATION.md](CREDITCOIN_INTEGRATION.md).
 - **Polygon Amoy:** `npx hardhat run scripts/deploy-blockchain.js --network polygonAmoy`
 - **HealthChain (Base Sepolia):** `npx hardhat run scripts/deployHealthChain.js --network base-sepolia`
 - **Federated:** `npx hardhat run scripts/deploy-federated.js --network polygonAmoy`

@@ -134,7 +134,7 @@ export async function uploadMedicalEvidence(
       riskLevel: evidence.medgemmaOutput.riskLevel,
       medgemmaVersion: evidence.metadata.medgemmaVersion,
       childAge: evidence.childAgeMonths,
-      verified: false, // Can be flipped by Chainlink oracle or backend once validated
+      verified: false, // Can be flipped by Creditcoin Attestor or backend once validated
     },
   };
 

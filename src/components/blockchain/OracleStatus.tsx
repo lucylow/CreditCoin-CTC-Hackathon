@@ -32,7 +32,7 @@ export function OracleStatus({ screeningId = 1 }: OracleStatusProps) {
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
-            Chainlink oracle verifications
+            Creditcoin Attestor verifications
           </h1>
           <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
             Independent re-execution of MedGemma inference confirms on-chain
@@ -42,11 +42,11 @@ export function OracleStatus({ screeningId = 1 }: OracleStatusProps) {
 
         {!isConfigured && (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white/70 p-6 text-sm text-slate-700">
-            Chainlink PediScreenOracle is not configured. Set{" "}
+            Creditcoin Attestor is not configured. Set{" "}
             <code className="font-mono text-xs">
-              VITE_PEDISCREEN_ORACLE_ADDRESS
+              VITE_RWA_CONTRACT_ADDRESS
             </code>{" "}
-            to enable live oracle status.
+            to enable verified screening status.
           </div>
         )}
 

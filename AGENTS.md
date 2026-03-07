@@ -108,6 +108,14 @@ Full multi-agent spec (Embedder, ModelReasoner, TriageScorer, Audit, EHR, etc.):
 - **Doc:** [docs/BLOCKCHAIN_INTEGRATION.md](docs/BLOCKCHAIN_INTEGRATION.md).
 - **Mobile (MetaMask + mock login):** [docs/METAMASK_MOBILE_INTEGRATION.md](docs/METAMASK_MOBILE_INTEGRATION.md); reference code in `mobile/`.
 
+## Creditcoin EVM (CTC, dual-chain)
+
+- **Purpose:** Low-cost minting (CTC gas), permanent legal anchoring; USC for trustless AI oracle (no Chainlink).
+- **Contracts:** `contracts/PediScreenNFT.sol`, `contracts/RiskEngine.sol`, `contracts/CHWRegistry.sol`, `contracts/PEDISCToken.sol`, `contracts/HealthChain.sol` — deploy: `npx hardhat run scripts/deploy-creditcoin.js --network creditcoinTestnet`. HealthChain: patient consent and access logs per screening (recordId = tokenId); set `HEALTH_CHAIN_ADDRESS` and `VITE_HEALTH_CHAIN_ADDRESS`.
+- **Backend:** `backend/app/services/creditcoin.py`, `backend/app/api/creditcoin_screening.py` — `POST /api/creditcoin/screening/mint`, `POST /api/creditcoin/screening/verify`, `GET /api/creditcoin/chw/register-info`, `GET /api/creditcoin/health`.
+- **Frontend:** `src/config/blockchain.ts` — `PEDISCREEN_NFT_ADDRESS`, `RISK_ENGINE_ADDRESS`, `CHW_REGISTRY_ADDRESS`, `PEDISC_TOKEN_ADDRESS`; chain 336/337, CTC, Creditcoin RPC/explorer.
+- **Doc:** [docs/CREDITCOIN_INTEGRATION.md](docs/CREDITCOIN_INTEGRATION.md).
+
 ## HealthChain POC (patient data exchange)
 
 - **Contract:** `contracts/HealthChainPOC.sol` — Base L2 patient data exchange (HIPAA/DSCSA): CHW creates record (encrypted FHIR → IPFS → hash + signature), consent manager, clinic/EHR access with audit.

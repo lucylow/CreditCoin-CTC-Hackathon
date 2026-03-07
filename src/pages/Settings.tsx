@@ -367,7 +367,7 @@ const Settings = () => {
                   <>
                     <Separator />
                     <p className="text-sm text-muted-foreground">
-                      Blockchain is not configured. Set VITE_PEDISCREEN_REGISTRY_ADDRESS, VITE_HEALTH_CHAIN_POC_ADDRESS, or VITE_FED_COORDINATOR_ADDRESS in your environment. See docs/BLOCKCHAIN_INTEGRATION.md in the repo.
+                      Blockchain is not configured. Set VITE_PEDISCREEN_NFT_ADDRESS (Creditcoin), VITE_PEDISCREEN_REGISTRY_ADDRESS, VITE_HEALTH_CHAIN_POC_ADDRESS, or VITE_FED_COORDINATOR_ADDRESS in your environment. See docs/BLOCKCHAIN_INTEGRATION.md in the repo.
                     </p>
                   </>
                 )}

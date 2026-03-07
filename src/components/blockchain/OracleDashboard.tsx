@@ -13,7 +13,7 @@ export function OracleDashboard() {
         {/* Header */}
         <div className="text-center mb-16 glass-medical p-12 rounded-3xl mx-auto max-w-4xl">
           <h1 className="text-5xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
-            Chainlink Oracle Verifications
+            Creditcoin Attestor Verifications
           </h1>
           <div className="flex items-center justify-center gap-2 text-2xl mb-8">
             <div className="w-4 h-4 bg-emerald-500 rounded-full animate-ping" />

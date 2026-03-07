@@ -128,7 +128,7 @@ const BlockchainPage = () => {
           </Link>
           <Link to="/pediscreen/oracle-dashboard">
             <Button variant="outline" className="gap-2 rounded-xl">
-              Chainlink Oracle Dashboard
+              Creditcoin Attestor Dashboard
             </Button>
           </Link>
           <Link to="/pediscreen/dao">

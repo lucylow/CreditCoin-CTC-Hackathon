@@ -282,7 +282,7 @@ function WalletConnectStep({
       <div className="mt-12 pt-8 border-t border-gray-200 text-sm text-gray-500 max-w-lg mx-auto text-center">
         <p>
           ✅ 100% Local Processing | ✅ Mock 11-Node IPFS Redundancy | ✅
-          Chainlink Oracle Ready
+          Creditcoin Attestor Ready
         </p>
       </div>
     </div>
@@ -541,8 +541,8 @@ function SuccessStep({
       </div>
       <div className="text-xs md:text-sm text-gray-600 space-y-1 max-w-2xl mx-auto">
         <p>
-          <strong>✅ Oracle ready:</strong> Chainlink PediScreenOracle can
-          independently re-run this screening using stored hashes (in
+          <strong>✅ Oracle ready:</strong> Creditcoin Attestor can
+          independently verify this screening using stored hashes (in
           production).
         </p>
         <p>

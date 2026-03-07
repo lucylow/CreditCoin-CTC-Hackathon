@@ -3,21 +3,39 @@
  * Creditcoin hackathon: mainnet (336) and testnet (337).
  */
 
-/** Creditcoin contract addresses; set via deploy scripts */
+/** Creditcoin contract addresses; set via deploy-creditcoin.js */
+export const PEDISCREEN_NFT_ADDRESS =
+  (import.meta.env.VITE_PEDISCREEN_NFT_ADDRESS as string) || "";
+export const RISK_ENGINE_ADDRESS =
+  (import.meta.env.VITE_RISK_ENGINE_ADDRESS as string) || "";
+export const CHW_REGISTRY_ADDRESS =
+  (import.meta.env.VITE_CHW_REGISTRY_ADDRESS as string) || "";
+export const PEDISC_TOKEN_ADDRESS =
+  (import.meta.env.VITE_PEDISC_TOKEN_ADDRESS as string) || "";
+/** Creditcoin Healthchain: consent and access logs (recordId = screening tokenId) */
+export const CREDITCOIN_HEALTH_CHAIN_ADDRESS =
+  (import.meta.env.VITE_HEALTH_CHAIN_ADDRESS as string) || "";
+
+/** RWA stack (Creditcoin USC: replaces Chainlink) */
+export const RWA_CONTRACT_ADDRESS =
+  (import.meta.env.VITE_RWA_CONTRACT_ADDRESS as string) || "";
+export const DATA_FEED_ADDRESS =
+  (import.meta.env.VITE_DATA_FEED_ADDRESS as string) || "";
+
+/** Legacy / optional contract addresses */
 export const PEDISCREEN_REGISTRY_ADDRESS =
   (import.meta.env.VITE_PEDISCREEN_REGISTRY_ADDRESS as string) || "";
 export const PAYMENT_ESCROW_ADDRESS =
   (import.meta.env.VITE_PAYMENT_ESCROW_ADDRESS as string) || "";
-/** HIPAA records (hashes only), consent, audit */
 export const PEDISCREEN_RECORDS_ADDRESS =
   (import.meta.env.VITE_PEDISCREEN_RECORDS_ADDRESS as string) || "";
-/** Oracle for verified PediScreen AI results */
+/** Creditcoin Attestor verification (RWA or legacy oracle address) */
 export const PEDISCREEN_ORACLE_ADDRESS =
-  (import.meta.env.VITE_PEDISCREEN_ORACLE_ADDRESS as string) || "";
-/** HealthChain POC — patient data exchange */
+  (import.meta.env.VITE_PEDISCREEN_ORACLE_ADDRESS as string) ||
+  (import.meta.env.VITE_RWA_CONTRACT_ADDRESS as string) ||
+  "";
 export const HEALTH_CHAIN_POC_ADDRESS =
   (import.meta.env.VITE_HEALTH_CHAIN_POC_ADDRESS as string) || "";
-/** Federated learning coordinator */
 export const FED_COORDINATOR_ADDRESS =
   (import.meta.env.VITE_FED_COORDINATOR_ADDRESS as string) || "";
 export const PEDI_REWARD_TOKEN_ADDRESS =
@@ -96,6 +114,8 @@ export function getBlockExplorerTokenUrl(chainId: number, contractAddress: strin
 
 export const isBlockchainConfigured =
   !!(
+    PEDISCREEN_NFT_ADDRESS ||
+    RWA_CONTRACT_ADDRESS ||
     PEDISCREEN_REGISTRY_ADDRESS ||
     PEDISCREEN_RECORDS_ADDRESS ||
     HEALTH_CHAIN_POC_ADDRESS ||

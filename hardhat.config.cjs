@@ -25,18 +25,6 @@ const config = {
       url: process.env.ETH_RPC_URL || `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_KEY || ""}`,
       accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
     },
-    polygon: {
-      url: process.env.POLYGON_RPC_URL || `https://polygon-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY || ""}`,
-      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
-    },
-    polygonAmoy: {
-      url: process.env.POLYGON_AMOY_RPC_URL || `https://polygon-amoy.g.alchemy.com/v2/${process.env.ALCHEMY_KEY || ""}`,
-      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
-    },
-    mumbai: {
-      url: process.env.POLYGON_MUMBAI_RPC || `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_KEY || ""}`,
-      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
-    },
     "base-mainnet": {
       url: process.env.BASE_RPC_URL || "https://mainnet.base.org",
       accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
@@ -45,14 +33,21 @@ const config = {
       url: process.env.BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org",
       accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
     },
+    creditcoinTestnet: {
+      url: process.env.CREDITCOIN_RPC_URL || "https://testnet.creditcoin.network",
+      chainId: 337,
+      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
+    },
+    creditcoinMainnet: {
+      url: process.env.CREDITCOIN_RPC_URL || "https://mainnet.creditcoin.network",
+      chainId: 336,
+      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
+    },
   },
   etherscan: {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY,
       sepolia: process.env.ETHERSCAN_API_KEY,
-      polygon: process.env.POLYGONSCAN_API_KEY || process.env.ETHERSCAN_API_KEY,
-      polygonAmoy: process.env.POLYGONSCAN_API_KEY || process.env.ETHERSCAN_API_KEY,
-      polygonMumbai: process.env.POLYGONSCAN_API_KEY || process.env.ETHERSCAN_API_KEY,
       "base-mainnet": process.env.BASESCAN_API_KEY || process.env.ETHERSCAN_API_KEY,
       "base-sepolia": process.env.BASESCAN_API_KEY || process.env.ETHERSCAN_API_KEY,
     },

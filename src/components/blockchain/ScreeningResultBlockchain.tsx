@@ -59,7 +59,7 @@ export function ScreeningResultBlockchain({
           className
         )}
       >
-        Blockchain not configured. Set VITE_PEDISCREEN_REGISTRY_ADDRESS (and
+        Blockchain not configured. Set VITE_PEDISCREEN_NFT_ADDRESS or VITE_PEDISCREEN_REGISTRY_ADDRESS (and
         optional env) to enable NFT mint and on-chain screening records.
       </div>
     );

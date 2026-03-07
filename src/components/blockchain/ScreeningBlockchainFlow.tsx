@@ -451,8 +451,8 @@ export function ScreeningBlockchainFlow() {
           </div>
           <div className="text-xs md:text-sm text-gray-600 space-y-1 max-w-2xl mx-auto">
             <p>
-              <strong>✅ Oracle ready:</strong> Chainlink PediScreenOracle can
-              independently re-run this screening using stored hashes.
+              <strong>✅ Oracle ready:</strong> Creditcoin Attestor can
+              independently verify this screening using stored hashes.
             </p>
             <p>
               <strong>🔒 Privacy preserved:</strong> Only structured evidence

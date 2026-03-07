@@ -1,6 +1,6 @@
 /**
  * PediScreen Oracle — read verified screening results from Creditcoin.
- * Frontend focuses on read/subscribe; backend + oracle functions handle writes.
+ * Backend Attestor verifies AI results (replaces Chainlink); frontend reads verification status.
  */
 
 import { BrowserProvider, Contract, type Provider } from "ethers";
@@ -12,7 +12,7 @@ const getBrowserProviderClass = (): new (p: unknown) => Provider =>
 const ORACLE_ABI = [
   // Screening record storage
   "function screenings(uint256 screeningId) view returns (string childId, uint8 riskLevel, uint16 confidence, string ipfsCid, bool verified, uint256 timestamp)",
-  // Emitted by Chainlink Functions/Automation when a screening is verified
+  // Emitted when Creditcoin Attestor (or legacy oracle) verifies a screening
   "event ScreeningVerified(uint256 indexed screeningId, string childId, uint8 riskLevel, uint16 confidence, string ipfsCid, uint256 timestamp)",
 ] as const;
 
@@ -33,7 +33,7 @@ export interface OracleScreeningRecord {
 
 function ensureOracleConfigured() {
   if (!PEDISCREEN_ORACLE_ADDRESS) {
-    throw new Error("PediScreen Oracle not configured (set VITE_PEDISCREEN_ORACLE_ADDRESS).");
+    throw new Error("Oracle not configured (set VITE_RWA_CONTRACT_ADDRESS or VITE_PEDISCREEN_ORACLE_ADDRESS).");
   }
 }
 

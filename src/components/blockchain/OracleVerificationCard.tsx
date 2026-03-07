@@ -1,6 +1,6 @@
 /**
- * Oracle verification card — shows Chainlink-verified PediScreen result.
- * Reads from PediScreenOracle; does not initiate on-chain writes.
+ * Oracle verification card — shows Creditcoin Attestor–verified PediScreen result.
+ * Reads from RWA/oracle contract; backend Attestor handles verification (replaces Chainlink).
  */
 
 import { ShieldCheck, Activity, Link2 } from "lucide-react";
@@ -30,9 +30,10 @@ export function OracleVerificationCard({
           className,
         )}
       >
-        PediScreen Oracle not configured. Set{" "}
+        Creditcoin Attestor not configured. Set{" "}
+        <code className="text-[10px]">VITE_RWA_CONTRACT_ADDRESS</code> or{" "}
         <code className="text-[10px]">VITE_PEDISCREEN_ORACLE_ADDRESS</code> to
-        enable Chainlink-verified screenings.
+        enable verified screenings.
       </div>
     );
   }
@@ -66,7 +67,7 @@ export function OracleVerificationCard({
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-primary" />
           <CardTitle className="text-sm font-semibold">
-            Oracle verification (Chainlink)
+            Oracle verification (Creditcoin Attestor)
           </CardTitle>
         </div>
         <Button
@@ -122,7 +123,7 @@ export function OracleVerificationCard({
           </div>
         ) : (
           <p className="text-xs text-muted-foreground">
-            Awaiting Chainlink oracle verification for this screening.
+            Awaiting Creditcoin Attestor verification for this screening.
           </p>
         )}
 

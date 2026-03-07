@@ -950,8 +950,8 @@ const ResultsScreen = () => {
             report={report}
             blockchainHints={blockchain}
           />
-          {/* Chainlink oracle card (read-only) — shows verified risk/confidence when
-             PediScreenOracle has processed this screening. If your on-chain screeningId
+          {/* Creditcoin Attestor card (read-only) — shows verified risk/confidence when
+             RWA/oracle has processed this screening. If your on-chain screeningId
              mirrors this app's screeningId numeric suffix, this gives you a zero-config
              demo; otherwise adapt the mapping when you persist the on-chain ID. */}
           <OracleVerificationCard

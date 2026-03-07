@@ -38,6 +38,10 @@ from app.api import (
     interoperability,
     feedback,
     telemetry,
+    creditcoin_screening,
+    rwa,
+    insurance,
+    security,
 )
 from app.errors import ErrorResponse, ErrorCodes
 from app.utils.error_formatter import api_error
@@ -79,7 +83,10 @@ async def global_exception_handler(request: Request, exc: Exception):
     from app.errors import ApiError, SafetyViolation
 
     if isinstance(exc, ApiError):
-        return api_error(exc.code, exc.message, exc.status_code, exc.details)
+        return api_error(
+            exc.code, exc.message, exc.status_code, exc.details,
+            request_id=get_request_id(request),
+        )
     if isinstance(exc, SafetyViolation):
         return api_error(
             ErrorCodes.SAFETY_VIOLATION,
@@ -90,23 +97,27 @@ async def global_exception_handler(request: Request, exc: Exception):
         )
     if isinstance(exc, HTTPException):
         detail = exc.detail
+        rid = get_request_id(request)
         if isinstance(detail, dict) and "code" in detail:
             return api_error(
                 detail.get("code", _status_to_code(exc.status_code)),
                 detail.get("message", str(detail)),
                 exc.status_code,
                 detail.get("details"),
+                request_id=rid,
             )
         return api_error(
             _status_to_code(exc.status_code),
             str(detail) if detail else "An error occurred",
             exc.status_code,
+            request_id=rid,
         )
     logger.exception("Unhandled exception: %s", exc)
     return api_error(
         ErrorCodes.SAFE_ERROR,
         "An unexpected error occurred",
         status_code=500,
+        request_id=get_request_id(request),
     )
 
 # Request ID first so all downstream code has request.state.request_id
@@ -166,6 +177,10 @@ app.include_router(schemas_api.router)
 app.include_router(data_quality.router)
 app.include_router(interoperability.router)
 app.include_router(feedback.router)
+app.include_router(creditcoin_screening.router)
+app.include_router(rwa.router)
+app.include_router(insurance.router)
+app.include_router(security.router)
 
 @app.on_event("startup")
 async def startup_event():

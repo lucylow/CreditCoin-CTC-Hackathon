@@ -75,6 +75,22 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_ID: Optional[str] = Field(None, env="GOOGLE_CLIENT_ID")
     CLINICIAN_EMAIL_DOMAIN: Optional[str] = Field("@yourclinic.org", env="CLINICIAN_EMAIL_DOMAIN")
 
+    # Creditcoin EVM (CTC gas, chain 336/337)
+    CREDITCOIN_RPC: Optional[str] = Field(None, env="CREDITCOIN_RPC")
+    CREDITCOIN_CHAIN_ID: Optional[int] = Field(337, env="CREDITCOIN_CHAIN_ID")
+    NFT_CONTRACT_ADDRESS: Optional[str] = Field(None, env="NFT_CONTRACT_ADDRESS")
+    RISK_ENGINE_ADDRESS: Optional[str] = Field(None, env="RISK_ENGINE_ADDRESS")
+    CHW_REGISTRY_ADDRESS: Optional[str] = Field(None, env="CHW_REGISTRY_ADDRESS")
+    PEDISC_TOKEN_ADDRESS: Optional[str] = Field(None, env="PEDISC_TOKEN_ADDRESS")
+    HEALTH_CHAIN_ADDRESS: Optional[str] = Field(None, env="HEALTH_CHAIN_ADDRESS")
+    # Security (Creditcoin-native): consent + audit – no raw PHI on-chain
+    CONSENT_REGISTRY_ADDRESS: Optional[str] = Field(None, env="CONSENT_REGISTRY_ADDRESS")
+    AUDIT_LOG_ADDRESS: Optional[str] = Field(None, env="AUDIT_LOG_ADDRESS")
+    # Pinata IPFS (for screening report metadata)
+    PINATA_JWT: Optional[str] = Field(None, env="PINATA_JWT")
+    PINATA_API_KEY: Optional[str] = Field(None, env="PINATA_API_KEY")
+    PINATA_SECRET_API_KEY: Optional[str] = Field(None, env="PINATA_SECRET_API_KEY")
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

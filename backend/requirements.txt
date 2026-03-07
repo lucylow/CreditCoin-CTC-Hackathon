@@ -39,6 +39,12 @@ weasyprint>=60.0
 fhirclient>=4.1.0
 fhir.resources>=7.0.0
 
+# Creditcoin EVM (mint/verify screening NFT; optional)
+web3>=6.0.0
+eth-account>=0.8.0
+# PHI encryption (AES-256-GCM); key is patient-owned client-side
+pycryptodome>=3.19.0
+
 # Error handling: retries, circuit breaker, structured logs
 tenacity>=8.0.0
 pybreaker>=1.0.0

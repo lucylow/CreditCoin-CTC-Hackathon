@@ -1,6 +1,6 @@
 /**
- * Hook for reading PediScreen Oracle status (Chainlink-verified screenings).
- * Uses read-only provider; backend + Chainlink handle writes.
+ * Hook for reading PediScreen Oracle status (Creditcoin Attestor–verified screenings).
+ * Uses read-only provider; backend Attestor handles writes (replaces Chainlink).
  */
 
 import { useCallback, useEffect, useMemo, useState } from "react";
