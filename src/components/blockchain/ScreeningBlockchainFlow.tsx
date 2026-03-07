@@ -223,12 +223,12 @@ export function ScreeningBlockchainFlow() {
               ? `Connected: ${wallet.address.slice(0, 6)}…${wallet.address.slice(-4)}`
               : "Connect MetaMask"}
           </div>
-          {wallet.isConnected && wallet.chainId !== 137 && (
+          {wallet.isConnected && wallet.chainId !== 336 && (
             <Button
-              onClick={() => wallet.switchChain(137)}
+              onClick={() => wallet.switchChain(336)}
               className="px-8 py-4 bg-amber-500 text-white rounded-3xl font-bold shadow-xl hover:shadow-2xl transition-all"
             >
-              Switch to Polygon (recommended)
+              Switch to Creditcoin (recommended)
             </Button>
           )}
           <Button
@@ -377,7 +377,7 @@ export function ScreeningBlockchainFlow() {
             onClick={handleMintNFT}
             className="px-10 py-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-3xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all w-fit mx-auto"
           >
-            ⛓️ Mint NFT certificate on Polygon
+            ⛓️ Mint NFT certificate on Creditcoin
           </Button>
         </div>
       )}
@@ -405,12 +405,12 @@ export function ScreeningBlockchainFlow() {
                   <div className="break-all">
                     <span className="font-semibold">Transaction:</span>{" "}
                     <a
-                      href={`https://polygonscan.com/tx/${nftData.txHash}`}
+                      href={`https://testnet-explorer.creditcoin.org/tx/${nftData.txHash}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline font-mono text-xs"
                     >
-                      View on PolygonScan
+                      View on Creditcoin Explorer
                     </a>
                   </div>
                   {screeningResult.ipfsCID && (

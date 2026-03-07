@@ -56,36 +56,26 @@ const DEFAULT_DOMAINS: Domains = {
 
 function getBlockExplorerTxUrl(chainId: number, txHash: string): string {
   switch (chainId) {
-    case 137:
-      return `https://polygonscan.com/tx/${txHash}`;
-    case 80002:
-      return `https://amoy.polygonscan.com/tx/${txHash}`;
-    case 8453:
-      return `https://basescan.org/tx/${txHash}`;
-    case 84532:
-      return `https://sepolia.basescan.org/tx/${txHash}`;
+    case 336:
+      return `https://explorer.creditcoin.org/tx/${txHash}`;
+    case 337:
+      return `https://testnet-explorer.creditcoin.org/tx/${txHash}`;
     default:
-      return `https://polygonscan.com/tx/${txHash}`;
+      return `https://testnet-explorer.creditcoin.org/tx/${txHash}`;
   }
 }
 
 function getBlockExplorerTokenUrl(chainId: number, contractAddress: string, tokenId: string): string {
-  const base = chainId === 137
-    ? "https://polygonscan.com"
-    : chainId === 80002
-      ? "https://amoy.polygonscan.com"
-      : chainId === 8453
-        ? "https://basescan.org"
-        : "https://polygonscan.com";
+  const base = chainId === 336
+    ? "https://explorer.creditcoin.org"
+    : "https://testnet-explorer.creditcoin.org";
   return `${base}/token/${contractAddress}?a=${tokenId}`;
 }
 
 function getChainName(chainId: number): string {
   switch (chainId) {
-    case 137: return "Polygon";
-    case 80002: return "Polygon Amoy";
-    case 8453: return "Base";
-    case 84532: return "Base Sepolia";
+    case 336: return "Creditcoin";
+    case 337: return "Creditcoin Testnet";
     default: return `Chain ${chainId}`;
   }
 }
@@ -366,11 +356,9 @@ const EmptyNFTGallery: React.FC<EmptyNFTGalleryProps> = ({
   const hasBalanceOnly = nftBalanceCount != null && nftBalanceCount > 0;
   const explorerUrl =
     registryAddress &&
-    (chainId === 137
-      ? `https://polygonscan.com/token/${registryAddress}`
-      : chainId === 80002
-        ? `https://amoy.polygonscan.com/token/${registryAddress}`
-        : `https://polygonscan.com/token/${registryAddress}`);
+    (chainId === 336
+      ? `https://explorer.creditcoin.org/token/${registryAddress}`
+      : `https://testnet-explorer.creditcoin.org/token/${registryAddress}`);
 
   return (
     <div className="mx-auto max-w-xl rounded-3xl border border-border bg-card p-8 text-center shadow-lg">
@@ -430,7 +418,7 @@ export function PediScreenBlockchainUI() {
 
   const hasEthereum = typeof window !== "undefined" && !!window.ethereum;
   const registryAddress = PEDISCREEN_REGISTRY_ADDRESS;
-  const chainIdNum = chainId ?? 137;
+  const chainIdNum = chainId ?? 336;
 
   // Build mock NFTs from mockWallet data
   const mockNfts = useMemo<PediScreenNft[]>(() =>
@@ -456,7 +444,7 @@ export function PediScreenBlockchainUI() {
 
   const effectiveConnected = isConnected || useMock;
   const effectiveAddress = useMock ? MOCK_WALLET_DATA.connected.address : address;
-  const effectiveChainId = useMock ? 137 : chainIdNum;
+  const effectiveChainId = useMock ? 336 : chainIdNum;
   const effectiveNfts = useMock ? mockNfts : nftGallery;
 
   const fetchNftGallery = useCallback(async () => {
@@ -528,7 +516,7 @@ export function PediScreenBlockchainUI() {
               setTxStatus("pending");
               try {
                 const signature = await signScreeningMessage(data);
-                const preferredChain = chainIdNum === 137 ? "polygon" : chainIdNum === 8453 ? "base" : "polygon";
+                const preferredChain = chainIdNum === 336 ? "creditcoin" : "creditcoin-testnet";
                 const res = await fetch("/api/nft/mint-gasless", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
