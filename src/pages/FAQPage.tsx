@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 const faqItems = [
   {
     q: "What is PediScreen AI?",
-    a: "PediScreen AI is a clinical decision support tool that helps community health workers and clinicians with pediatric developmental screening. It uses Google's MedGemma model to analyze observations and provide structured risk summaries, key findings, and recommendations. It is not a diagnostic device—results always require review by a qualified clinician.",
+    a: "PediScreen AI is a clinical decision support tool that helps community health workers and clinicians with pediatric developmental screening. It uses a medical AI model to analyze observations and provide structured risk summaries, key findings, and recommendations. It is not a diagnostic device—results always require review by a qualified clinician.",
   },
   {
     q: "Who can use it?",

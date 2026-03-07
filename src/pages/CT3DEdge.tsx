@@ -1,6 +1,6 @@
 /**
  * CT 3D & Edge — Portable CT Scanners integration with PediScreen AI.
- * 3D imaging (DICOM/NIfTI) → EdgeAiEngine → MedGemma-2B-IT-Q4 for offline pediatric analysis.
+ * 3D imaging (DICOM/NIfTI) → EdgeAiEngine → AI model for offline pediatric analysis.
  */
 import React from "react";
 import { Link } from "react-router-dom";
@@ -33,7 +33,7 @@ const hardwareTargets = [
     title: "AI-enabled mobile CT",
     subtitle: "Canon Aquilion Go, Siemens Go.Top",
     bullets: [
-      "MedGemma-2B-IT-Q4 120MB runs fully offline on portable CT workstations.",
+      "AI model (120 MB quantized) runs fully offline on portable CT workstations.",
       "~2.1 s organ-level inference per 3D volume; preemie IVH / head CT focus.",
     ],
     badge: "Portable CT",
@@ -81,13 +81,13 @@ export default function CT3DEdge() {
         </h1>
         <p className="text-muted-foreground max-w-2xl text-sm sm:text-base">
           CT scanners produce 512×512×N voxel DICOM stacks (100–500 MB). PediScreen CT uses
-          MedGemma-2B-IT-Q4 to process volumes locally and fuse 3D findings into the same
+          a quantized AI model to process volumes locally and fuse 3D findings into the same
           HAI-DEF agent ecosystem as developmental screening.
         </p>
         <div className="flex flex-wrap gap-2">
           <Badge variant="secondary" className="gap-1 rounded-full">
             <Cpu className="w-3 h-3" />
-            {CT_METRICS.modelMb} MB MedGemma-2B-IT-Q4
+            {CT_METRICS.modelMb} MB AI Model (quantized)
           </Badge>
           <Badge variant="secondary" className="gap-1 rounded-full">
             <Timer className="w-3 h-3" />
@@ -109,12 +109,12 @@ export default function CT3DEdge() {
         <div className="flex items-center gap-2">
           <Layers className="w-5 h-5 text-primary" />
           <h2 className="text-xl font-semibold">
-            DICOM → 3D mesh → MedGemma CT pipeline
+            DICOM → 3D mesh → AI CT pipeline
           </h2>
         </div>
         <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl">
           This interactive panel mirrors the Edge AI Prize demo: a CHW loads a portable CT DICOM
-          stack, PediScreen generates a 3D brain or extremity model, MedGemma analyzes for IVH or
+          stack, PediScreen generates a 3D brain or extremity model, AI analyzes for IVH or
           fractures, and the result is exported as a FHIR Bundle R4 with an optional 3D mesh.
         </p>
         <CT3DMeshPipeline />
@@ -160,7 +160,7 @@ export default function CT3DEdge() {
       >
         <div className="flex items-center gap-2">
           <Layers className="w-5 h-5 text-primary" />
-          <h2 className="text-xl font-semibold">DICOM → EdgeAiEngine → MedGemma 3D pipeline</h2>
+          <h2 className="text-xl font-semibold">DICOM → EdgeAiEngine → AI 3D pipeline</h2>
         </div>
         <Card className="border-dashed">
           <CardContent className="py-4 grid gap-4 md:grid-cols-3 text-sm">
@@ -183,7 +183,7 @@ export default function CT3DEdge() {
               <ArrowRight className="w-5 h-5 text-muted-foreground" />
             </div>
             <div>
-              <p className="font-medium mb-1">3. MedGemma 3D inference</p>
+              <p className="font-medium mb-1">3. AI 3D inference</p>
               <p className="text-xs text-muted-foreground">
                 On-device inference → findings + FHIR R4 + 3D visualization.
               </p>

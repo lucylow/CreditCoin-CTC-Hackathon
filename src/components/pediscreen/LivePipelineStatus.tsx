@@ -59,7 +59,7 @@ export function LivePipelineStatus() {
         </div>
         {state.isStreaming && streamText && (
           <div className="p-3 rounded-lg bg-sky-50 border border-sky-100">
-            <p className="text-xs font-medium text-sky-800 mb-1">MedGemma Live</p>
+            <p className="text-xs font-medium text-sky-800 mb-1">AI Model Live</p>
             <p className="text-sm text-slate-700">{streamText}</p>
           </div>
         )}

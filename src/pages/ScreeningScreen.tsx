@@ -471,7 +471,7 @@ const ScreeningScreen = () => {
                     <span className="text-2xl">📋</span>
                     Evidence Collection
                   </CardTitle>
-                  <CardDescription>Enter age and select primary domain for MedGemma analysis</CardDescription>
+                  <CardDescription>Enter age and select primary domain for AI analysis</CardDescription>
                 </div>
                 <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
                   <Brain className="w-3 h-3 mr-1" />
@@ -862,11 +862,11 @@ const ScreeningScreen = () => {
                       </div>
                       <h3 className="font-medium text-foreground mb-2">Technical Analysis: Visual Evidence</h3>
                       <div className="text-sm text-muted-foreground mb-4 space-y-1">
-                        <p>MedGemma processes images for:</p>
+                         <p>Our AI model processes images for:</p>
                         <p>• Fine motor control (pincer grasp, pencil pressure)</p>
                         <p>• Cognitive milestones (geometric shape reproduction)</p>
                         <p>• Spatial reasoning (stacking, alignment)</p>
-                        <p className="pt-2 text-xs italic">MedSigLIP embeddings are used for clinical visual analysis.</p>
+                        <p className="pt-2 text-xs italic">Vision embeddings are used for clinical visual analysis.</p>
                       </div>
                       
                       <input
@@ -970,7 +970,7 @@ const ScreeningScreen = () => {
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-6 h-6 animate-spin" />
-                      <span>MedGemma is synthesizing multimodal inputs…</span>
+                      <span>AI is synthesizing multimodal inputs…</span>
                     </>
                   ) : (
                     <>

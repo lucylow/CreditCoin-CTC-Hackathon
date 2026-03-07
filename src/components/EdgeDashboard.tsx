@@ -180,7 +180,7 @@ export function EdgeDashboard() {
           </CardHeader>
           <CardContent>
             <ol className="list-decimal list-inside text-sm text-muted-foreground space-y-1">
-              <li>Install Ollama and MedGemma on your Raspberry Pi 5.</li>
+              <li>Install Ollama and the AI model on your Raspberry Pi 5.</li>
               <li>
                 Configure the telemetry agent to POST metrics to{" "}
                 <code className="font-mono text-xs">/functions/v1/edge-metrics</code>.

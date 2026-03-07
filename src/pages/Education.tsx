@@ -73,7 +73,7 @@ const Education = () => {
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 font-bold text-primary">2</div>
                       <div>
                         <h4 className="font-bold mb-1">Multimodal AI Analysis</h4>
-                        <p className="text-sm text-muted-foreground">MedGemma and MedSigLIP analyze the combined evidence against standardized developmental milestones.</p>
+                        <p className="text-sm text-muted-foreground">Our AI models analyze the combined evidence against standardized developmental milestones.</p>
                       </div>
                     </div>
                   </CardContent>
