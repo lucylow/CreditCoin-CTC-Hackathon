@@ -896,14 +896,14 @@ const ResultsScreen = () => {
                 variant="ghost" 
                 size="sm" 
                 className="h-8 text-[10px] gap-1"
-                onClick={() => fallbackCopy(`“Developmental screening performed using PediScreen AI. Screening suggests emerging ${getDomainLabel(domain).toLowerCase()}. Findings are non-diagnostic and will be monitored over time in conjunction with clinical assessment.”`)}
+                onClick={() => fallbackCopy(`"Developmental screening performed using PediScreen. Screening suggests emerging ${getDomainLabel(domain).toLowerCase()}. Findings are non-diagnostic and will be monitored over time in conjunction with clinical assessment."`)}
               >
                 <Plus className="w-3 h-3" /> Copy Text
               </Button>
             </CardHeader>
             <CardContent className="py-2 px-4">
               <div className="p-3 bg-background rounded-lg border border-primary/10 text-xs font-mono text-muted-foreground leading-relaxed">
-                “Developmental screening performed using PediScreen AI. Screening suggests emerging {getDomainLabel(domain).toLowerCase()}. Findings are non-diagnostic and will be monitored over time in conjunction with clinical assessment.”
+                "Developmental screening performed using PediScreen. Screening suggests emerging {getDomainLabel(domain).toLowerCase()}. Findings are non-diagnostic and will be monitored over time in conjunction with clinical assessment."
               </div>
             </CardContent>
           </Card>
