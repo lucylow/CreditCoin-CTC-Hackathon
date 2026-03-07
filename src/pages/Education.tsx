@@ -33,7 +33,7 @@ const Education = () => {
       >
         <div className="mb-12">
           <h1 className="text-3xl font-bold mb-2">Resource Center</h1>
-          <p className="text-muted-foreground text-lg">Learn more about developmental screening and how to use PediScreen AI effectively.</p>
+          <p className="text-muted-foreground text-lg">Learn more about developmental screening and how to use PediScreen effectively.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
@@ -101,7 +101,7 @@ const Education = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Is this a medical diagnosis?</AccordionTrigger>
                   <AccordionContent>
-                    No. PediScreen AI is a screening tool designed to support clinical decision-making. It identifies patterns and signals that may warrant further evaluation by a qualified medical professional.
+                    No. PediScreen is a screening tool designed to support clinical decision-making. It identifies patterns and signals that may warrant further evaluation by a qualified medical professional.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
