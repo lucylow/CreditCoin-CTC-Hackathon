@@ -1,6 +1,6 @@
 /**
  * Federated Learning Dashboard — privacy-first model training with $PEDI rewards on Creditcoin.
- * Three-column layout: sidebar nav, main content, right panel (rewards/clients/activity).
+ * Deep Creditcoin integrations: USC verification, dual-chain anchoring, Credal reputation, DePIN IoT.
  */
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,6 +29,16 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Eye,
+  Layers,
+  Link2,
+  Award,
+  Radio,
+  Wifi,
+  WifiOff,
+  Globe,
+  ShieldCheck,
+  Star,
+  Badge,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -37,9 +47,11 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { useFedLearning } from "@/hooks/useFedLearning";
 import { usePediScreenWallet } from "@/hooks/usePediScreenWallet";
+import { useUSCVerifications, useDualChainAnchors, useCHWReputations, useDePINDevices, useDePINStats } from "@/hooks/useCreditcoinData";
 import { ConnectWalletButton } from "@/components/blockchain/ConnectWalletButton";
 import { MOCK_WALLET_DATA } from "@/data/mockWallet";
 import { getChainName } from "@/config/blockchain";
+import { creditcoinService } from "@/lib/blockchain/mockService";
 import { toast } from "sonner";
 
 // ── Mock data ──
@@ -78,7 +90,7 @@ const MOCK_SUBMISSIONS = [
   { round: 6, hash: "0xi9j0k1l2…", points: 130, reward: 1300, time: "2 days ago", status: "confirmed" },
 ];
 
-type SidebarTab = "dashboard" | "clients" | "submissions" | "rewards" | "docs";
+type SidebarTab = "dashboard" | "clients" | "submissions" | "rewards" | "usc" | "dualchain" | "credal" | "depin" | "docs";
 
 const FederatedLearningPage = () => {
   const [activeTab, setActiveTab] = useState<SidebarTab>("dashboard");
@@ -165,6 +177,10 @@ const FederatedLearningPage = () => {
                   { id: "clients", icon: Cpu, label: "My Clients" },
                   { id: "submissions", icon: Send, label: "Submissions" },
                   { id: "rewards", icon: Gift, label: "Rewards" },
+                  { id: "usc", icon: ShieldCheck, label: "USC Verify" },
+                  { id: "dualchain", icon: Layers, label: "Dual-Chain" },
+                  { id: "credal", icon: Award, label: "CHW Reputation" },
+                  { id: "depin", icon: Radio, label: "DePIN IoT" },
                   { id: "docs", icon: BookOpen, label: "Documentation" },
                 ] as const).map((item) => (
                   <button
@@ -201,6 +217,10 @@ const FederatedLearningPage = () => {
                 {activeTab === "clients" && <ClientsView key="clients" />}
                 {activeTab === "submissions" && <SubmissionsView key="submissions" />}
                 {activeTab === "rewards" && <RewardsDetailView key="rewards" />}
+                {activeTab === "usc" && <USCVerificationView key="usc" />}
+                {activeTab === "dualchain" && <DualChainView key="dualchain" />}
+                {activeTab === "credal" && <CredalReputationView key="credal" />}
+                {activeTab === "depin" && <DePINView key="depin" />}
                 {activeTab === "docs" && <DocsView key="docs" />}
               </AnimatePresence>
             </main>
@@ -573,6 +593,462 @@ function RewardsDetailView() {
       <p className="text-[10px] text-muted-foreground text-center">
         10 $PEDI per data point. Rewards distributed after each round ends.
       </p>
+    </motion.div>
+  );
+}
+
+// ── USC Verification View ──
+
+function USCVerificationView() {
+  const { verifications, loading } = useUSCVerifications();
+  const [submitting, setSubmitting] = useState<string | null>(null);
+
+  const handleSubmitProof = async (tokenId: string, evidenceHash: string) => {
+    setSubmitting(tokenId);
+    try {
+      const result = await creditcoinService.submitUSCProof(tokenId, evidenceHash);
+      toast.success("STARK proof submitted", {
+        description: `${result.attestorsNotified} attestors notified for token #${tokenId}`,
+      });
+    } catch {
+      toast.error("Proof submission failed");
+    }
+    setSubmitting(null);
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
+      <div>
+        <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+          <ShieldCheck className="w-5 h-5 text-primary" />
+          Universal Smart Contract (USC) Verification
+        </h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          Trustless AI verification via Creditcoin's native oracle — replaces Chainlink with on-chain STARK proofs.
+        </p>
+      </div>
+
+      {/* How it works */}
+      <Card>
+        <CardContent className="pt-5">
+          <p className="text-xs font-medium text-foreground mb-3">How USC Verification Works</p>
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            {[
+              { step: "1", label: "AI Inference", icon: Cpu },
+              { step: "2", label: "STARK Proof", icon: Lock },
+              { step: "3", label: "Attestor Consensus", icon: Users },
+              { step: "4", label: "On-Chain Verified", icon: CheckCircle },
+            ].map((s, i) => (
+              <div key={s.step} className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 bg-primary/5 border border-primary/10 rounded-lg px-3 py-2">
+                  <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">{s.step}</div>
+                  <s.icon className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-foreground font-medium">{s.label}</span>
+                </div>
+                {i < 3 && <ChevronRight className="w-3 h-3 text-muted-foreground" />}
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Verifications list */}
+      {loading ? (
+        <Card><CardContent className="pt-6 text-center text-sm text-muted-foreground py-8">Loading verifications…</CardContent></Card>
+      ) : (
+        <div className="space-y-3">
+          {verifications.map((v) => (
+            <Card key={v.tokenId}>
+              <CardContent className="pt-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-2 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-foreground text-sm">Token #{v.tokenId}</span>
+                      {v.verified ? (
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 font-semibold flex items-center gap-1">
+                          <CheckCircle className="w-2.5 h-2.5" /> Verified
+                        </span>
+                      ) : (
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 font-semibold flex items-center gap-1">
+                          <Clock className="w-2.5 h-2.5" /> Pending
+                        </span>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <p className="text-muted-foreground">Proof Type</p>
+                        <p className="font-mono text-foreground">{v.proofType}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Attestors</p>
+                        <p className="text-foreground">{v.attestorCount}/5 consensus</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Evidence Hash</p>
+                        <p className="font-mono text-foreground truncate">{v.evidenceHash}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Gas Used</p>
+                        <p className="text-foreground">{v.gasUsed ?? "—"}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="shrink-0">
+                    {!v.verified && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-xs gap-1"
+                        disabled={submitting === v.tokenId}
+                        onClick={() => handleSubmitProof(v.tokenId, v.evidenceHash)}
+                      >
+                        {submitting === v.tokenId ? (
+                          <><RefreshCw className="w-3 h-3 animate-spin" /> Submitting…</>
+                        ) : (
+                          <><Shield className="w-3 h-3" /> Submit Proof</>
+                        )}
+                      </Button>
+                    )}
+                    {v.txHash && (
+                      <a
+                        href={`https://testnet-explorer.creditcoin.org/tx/${v.txHash}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[10px] text-primary hover:underline flex items-center gap-0.5 mt-1"
+                      >
+                        View tx <ArrowUpRight className="w-2.5 h-2.5" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+// ── Dual-Chain View ──
+
+function DualChainView() {
+  const { anchors, loading } = useDualChainAnchors();
+  const [relaying, setRelaying] = useState<string | null>(null);
+
+  const handleRelay = async (tokenId: string, evmTxHash: string) => {
+    setRelaying(tokenId);
+    try {
+      const result = await creditcoinService.relayToNativeChain(tokenId, evmTxHash);
+      toast.success("Relayed to Native Chain", {
+        description: `Token #${tokenId} anchored at native block #${result.nativeBlock}`,
+      });
+    } catch {
+      toast.error("Relay failed");
+    }
+    setRelaying(null);
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
+      <div>
+        <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+          <Layers className="w-5 h-5 text-primary" />
+          Dual-Chain Anchoring
+        </h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          Mint on Creditcoin EVM for speed, relay evidence hash to Creditcoin Native for permanent legal finality.
+        </p>
+      </div>
+
+      {/* Architecture diagram */}
+      <Card>
+        <CardContent className="pt-5">
+          <div className="flex items-center justify-center gap-4 text-xs">
+            <div className="text-center p-3 rounded-lg bg-primary/5 border border-primary/10">
+              <Zap className="w-5 h-5 text-primary mx-auto mb-1" />
+              <p className="font-medium text-foreground">EVM Chain</p>
+              <p className="text-muted-foreground text-[10px]">Fast minting</p>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <ChevronRight className="w-4 h-4 text-primary" />
+              <span className="text-[10px] text-muted-foreground">Relayer</span>
+            </div>
+            <div className="text-center p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
+              <Link2 className="w-5 h-5 text-emerald-600 mx-auto mb-1" />
+              <p className="font-medium text-foreground">Native Chain</p>
+              <p className="text-muted-foreground text-[10px]">Permanent record</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {loading ? (
+        <Card><CardContent className="pt-6 text-center text-sm text-muted-foreground py-8">Loading anchors…</CardContent></Card>
+      ) : (
+        <div className="space-y-3">
+          {anchors.map((a) => (
+            <Card key={a.tokenId}>
+              <CardContent className="pt-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-2 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-foreground text-sm">Token #{a.tokenId}</span>
+                      <span className={cn(
+                        "text-[10px] px-2 py-0.5 rounded-full font-semibold",
+                        a.finality === "permanent"
+                          ? "bg-emerald-500/10 text-emerald-600"
+                          : "bg-amber-500/10 text-amber-600"
+                      )}>
+                        {a.finality === "permanent" ? "✓ Dual-Chain" : "⏳ EVM Only"}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <p className="text-muted-foreground">EVM Block</p>
+                        <p className="font-mono text-foreground">#{a.evmBlock}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Native Block</p>
+                        <p className="font-mono text-foreground">{a.nativeBlock ? `#${a.nativeBlock}` : "—"}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">EVM Tx</p>
+                        <p className="font-mono text-foreground truncate">{a.evmTxHash.slice(0, 18)}…</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Relayer</p>
+                        <p className={cn("font-medium", a.relayerStatus === "confirmed" ? "text-emerald-600" : "text-amber-600")}>
+                          {a.relayerStatus}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  {a.relayerStatus === "pending" && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-xs gap-1 shrink-0"
+                      disabled={relaying === a.tokenId}
+                      onClick={() => handleRelay(a.tokenId, a.evmTxHash)}
+                    >
+                      {relaying === a.tokenId ? (
+                        <><RefreshCw className="w-3 h-3 animate-spin" /> Relaying…</>
+                      ) : (
+                        <><Link2 className="w-3 h-3" /> Relay Now</>
+                      )}
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+// ── Credal CHW Reputation View ──
+
+function CredalReputationView() {
+  const { reputations, loading } = useCHWReputations();
+
+  const tierColors: Record<string, string> = {
+    Master: "bg-amber-500/10 text-amber-600 border-amber-300",
+    Expert: "bg-primary/10 text-primary border-primary/30",
+    Advanced: "bg-emerald-500/10 text-emerald-600 border-emerald-300",
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
+      <div>
+        <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+          <Award className="w-5 h-5 text-primary" />
+          CHW Reputation (Credal)
+        </h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          On-chain credit histories for Community Health Workers built via Creditcoin's Credal API — portable, verifiable, border-agnostic.
+        </p>
+      </div>
+
+      {loading ? (
+        <Card><CardContent className="pt-6 text-center text-sm text-muted-foreground py-8">Loading reputations…</CardContent></Card>
+      ) : (
+        <div className="space-y-3">
+          {reputations.map((r) => (
+            <Card key={r.chwAddress}>
+              <CardContent className="pt-5">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <Users className="w-6 h-6 text-primary" />
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-semibold text-foreground">{r.chwName}</span>
+                      <span className={cn("text-[10px] px-2 py-0.5 rounded-full border font-semibold", tierColors[r.reputationTier] || "bg-muted text-foreground")}>
+                        {r.reputationTier}
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">{r.region}</span>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                      <div className="rounded-lg bg-muted/50 p-2 text-center">
+                        <p className="text-lg font-bold text-foreground">{r.totalScreenings}</p>
+                        <p className="text-[10px] text-muted-foreground">Screenings</p>
+                      </div>
+                      <div className="rounded-lg bg-muted/50 p-2 text-center">
+                        <p className="text-lg font-bold text-foreground">{r.qualityScore}%</p>
+                        <p className="text-[10px] text-muted-foreground">Quality</p>
+                      </div>
+                      <div className="rounded-lg bg-muted/50 p-2 text-center">
+                        <p className="text-lg font-bold text-primary">{r.creditScore}</p>
+                        <p className="text-[10px] text-muted-foreground">Credit Score</p>
+                      </div>
+                      <div className="rounded-lg bg-muted/50 p-2 text-center">
+                        <p className="text-lg font-bold text-amber-600">{r.rewardsEarned}</p>
+                        <p className="text-[10px] text-muted-foreground">PEDISC Earned</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {r.badges.map((b) => (
+                        <span key={b} className="text-[10px] px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary font-medium flex items-center gap-1">
+                          <Star className="w-2.5 h-2.5" /> {b}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+// ── DePIN IoT View ──
+
+function DePINView() {
+  const { devices, loading: devicesLoading } = useDePINDevices();
+  const { stats, loading: statsLoading } = useDePINStats();
+  const [anchoring, setAnchoring] = useState<string | null>(null);
+
+  const handleAnchor = async (deviceId: string, dataHash: string) => {
+    setAnchoring(deviceId);
+    try {
+      const result = await creditcoinService.anchorIoTData(deviceId, dataHash);
+      toast.success("Data anchored on Creditcoin", {
+        description: `${deviceId} anchored at block #${result.blockNumber}`,
+      });
+    } catch {
+      toast.error("Anchor failed");
+    }
+    setAnchoring(null);
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
+      <div>
+        <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+          <Radio className="w-5 h-5 text-primary" />
+          DePIN IoT Data Anchoring
+        </h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          Encrypted vitals from edge devices anchored immutably on Creditcoin. Raw data stays on device — only hashes stored on-chain.
+        </p>
+      </div>
+
+      {/* Network stats */}
+      {!statsLoading && stats && (
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+          {[
+            { label: "Devices", value: stats.totalDevices, icon: Radio },
+            { label: "Online", value: stats.onlineDevices, icon: Wifi },
+            { label: "Anchored", value: stats.totalDataAnchored.toLocaleString(), icon: Database },
+            { label: "Pending", value: stats.pendingAnchors, icon: Clock },
+            { label: "Avg Time", value: stats.avgAnchorTime, icon: Zap },
+            { label: "Gas Spent", value: stats.totalGasSpent, icon: Coins },
+          ].map((s) => (
+            <Card key={s.label}>
+              <CardContent className="pt-3 pb-3 text-center">
+                <s.icon className="w-4 h-4 text-primary mx-auto mb-1" />
+                <p className="text-sm font-bold text-foreground">{s.value}</p>
+                <p className="text-[10px] text-muted-foreground">{s.label}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Devices */}
+      {devicesLoading ? (
+        <Card><CardContent className="pt-6 text-center text-sm text-muted-foreground py-8">Loading devices…</CardContent></Card>
+      ) : (
+        <div className="space-y-3">
+          {devices.map((d) => (
+            <Card key={d.deviceId}>
+              <CardContent className="pt-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-2 flex-1">
+                    <div className="flex items-center gap-2">
+                      {d.status === "online" ? (
+                        <Wifi className="w-4 h-4 text-emerald-500" />
+                      ) : (
+                        <WifiOff className="w-4 h-4 text-destructive" />
+                      )}
+                      <span className="font-medium text-foreground text-sm">{d.deviceId}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground">{d.type}</span>
+                      <span className={cn(
+                        "text-[10px] px-2 py-0.5 rounded-full font-semibold",
+                        d.status === "online" ? "bg-emerald-500/10 text-emerald-600" : "bg-destructive/10 text-destructive"
+                      )}>
+                        {d.status}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                      <div>
+                        <p className="text-muted-foreground">Data Points</p>
+                        <p className="font-bold text-foreground">{d.dataPoints.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Anchored</p>
+                        <p className="font-bold text-emerald-600">{d.anchored.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Pending</p>
+                        <p className="font-bold text-amber-600">{d.pendingAnchor}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Encryption</p>
+                        <p className="font-mono text-foreground text-[10px]">{d.encryptionType}</p>
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-muted-foreground">
+                      <Globe className="w-2.5 h-2.5 inline mr-1" />{d.region} • Last hash: <span className="font-mono">{d.lastDataHash.slice(0, 22)}…</span>
+                    </p>
+                  </div>
+                  {d.pendingAnchor > 0 && d.status === "online" && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-xs gap-1 shrink-0"
+                      disabled={anchoring === d.deviceId}
+                      onClick={() => handleAnchor(d.deviceId, d.lastDataHash)}
+                    >
+                      {anchoring === d.deviceId ? (
+                        <><RefreshCw className="w-3 h-3 animate-spin" /> Anchoring…</>
+                      ) : (
+                        <><Database className="w-3 h-3" /> Anchor {d.pendingAnchor}</>
+                      )}
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 }
