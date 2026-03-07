@@ -20,6 +20,16 @@ class SensorDataRequest(BaseModel):
     unit: Optional[str] = None
 
 
+class ModelVersionRequest(BaseModel):
+    version: str
+    ipfs_cid: str
+    active: bool = False
+
+
+class TaskCreateRequest(BaseModel):
+    sensor_data_ids: List[int]
+
+
 class InferenceResultRequest(BaseModel):
     task_id: str
     output_json: Dict[str, Any]

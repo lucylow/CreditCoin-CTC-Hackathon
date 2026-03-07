@@ -48,12 +48,11 @@ def depin_session() -> Generator[Session, None, None]:
 
 
 def get_depin_db() -> Generator[Session, None, None]:
-    """FastAPI dependency: yield a SQLAlchemy session for DePIN."""
+    """FastAPI dependency: yield a SQLAlchemy session for DePIN. Routes commit explicitly."""
     factory = get_depin_session_factory()
     session = factory()
     try:
         yield session
-        session.commit()
     except Exception:
         session.rollback()
         raise

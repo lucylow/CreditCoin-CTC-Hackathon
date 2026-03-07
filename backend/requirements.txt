@@ -53,6 +53,9 @@ python-json-logger>=2.0.0
 # Phase 1 telemetry: Prometheus metrics
 prometheus_client>=0.19.0
 
+# DePIN + Edge AI (optional: MQTT for sensor ingestion)
+# paho-mqtt>=2.0.0
+
 # Optional (only if you will run MedGemma locally / HF):
 # transformers==4.38.0
 # torch==2.1.0

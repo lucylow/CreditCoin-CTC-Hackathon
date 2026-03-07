@@ -44,6 +44,7 @@ from app.api import (
     security,
     federated,
 )
+from app.depin import depin_router
 from app.errors import ErrorResponse, ErrorCodes
 from app.utils.error_formatter import api_error
 
@@ -183,6 +184,7 @@ app.include_router(rwa.router)
 app.include_router(insurance.router)
 app.include_router(security.router)
 app.include_router(federated.router)
+app.include_router(depin_router)
 
 @app.on_event("startup")
 async def startup_event():
