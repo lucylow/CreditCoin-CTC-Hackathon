@@ -1,6 +1,6 @@
 /**
  * Federated Learning Dashboard — privacy-first model training with $PEDI rewards on Creditcoin.
- * Three-column layout: sidebar nav, main content, right panel (rewards/clients/activity).
+ * Deep Creditcoin integrations: USC verification, dual-chain anchoring, Credal reputation, DePIN IoT.
  */
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,6 +29,16 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Eye,
+  Layers,
+  Link2,
+  Award,
+  Radio,
+  Wifi,
+  WifiOff,
+  Globe,
+  ShieldCheck,
+  Star,
+  Badge,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -37,9 +47,11 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { useFedLearning } from "@/hooks/useFedLearning";
 import { usePediScreenWallet } from "@/hooks/usePediScreenWallet";
+import { useUSCVerifications, useDualChainAnchors, useCHWReputations, useDePINDevices, useDePINStats } from "@/hooks/useCreditcoinData";
 import { ConnectWalletButton } from "@/components/blockchain/ConnectWalletButton";
 import { MOCK_WALLET_DATA } from "@/data/mockWallet";
 import { getChainName } from "@/config/blockchain";
+import { creditcoinService } from "@/lib/blockchain/mockService";
 import { toast } from "sonner";
 
 // ── Mock data ──
@@ -78,7 +90,7 @@ const MOCK_SUBMISSIONS = [
   { round: 6, hash: "0xi9j0k1l2…", points: 130, reward: 1300, time: "2 days ago", status: "confirmed" },
 ];
 
-type SidebarTab = "dashboard" | "clients" | "submissions" | "rewards" | "docs";
+type SidebarTab = "dashboard" | "clients" | "submissions" | "rewards" | "usc" | "dualchain" | "credal" | "depin" | "docs";
 
 const FederatedLearningPage = () => {
   const [activeTab, setActiveTab] = useState<SidebarTab>("dashboard");
@@ -165,6 +177,10 @@ const FederatedLearningPage = () => {
                   { id: "clients", icon: Cpu, label: "My Clients" },
                   { id: "submissions", icon: Send, label: "Submissions" },
                   { id: "rewards", icon: Gift, label: "Rewards" },
+                  { id: "usc", icon: ShieldCheck, label: "USC Verify" },
+                  { id: "dualchain", icon: Layers, label: "Dual-Chain" },
+                  { id: "credal", icon: Award, label: "CHW Reputation" },
+                  { id: "depin", icon: Radio, label: "DePIN IoT" },
                   { id: "docs", icon: BookOpen, label: "Documentation" },
                 ] as const).map((item) => (
                   <button
@@ -201,6 +217,10 @@ const FederatedLearningPage = () => {
                 {activeTab === "clients" && <ClientsView key="clients" />}
                 {activeTab === "submissions" && <SubmissionsView key="submissions" />}
                 {activeTab === "rewards" && <RewardsDetailView key="rewards" />}
+                {activeTab === "usc" && <USCVerificationView key="usc" />}
+                {activeTab === "dualchain" && <DualChainView key="dualchain" />}
+                {activeTab === "credal" && <CredalReputationView key="credal" />}
+                {activeTab === "depin" && <DePINView key="depin" />}
                 {activeTab === "docs" && <DocsView key="docs" />}
               </AnimatePresence>
             </main>
