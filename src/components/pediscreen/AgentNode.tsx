@@ -22,7 +22,7 @@ const AGENT_CONFIG: Record<
   intake: { color: '#10B981', icon: Shield, label: 'Intake', offline: true },
   embedding: { color: '#F59E0B', icon: Zap, label: 'Vision', offline: false },
   temporal: { color: '#8B5CF6', icon: Clock, label: 'History', offline: true },
-  medgemma: { color: '#1E3A8A', icon: Brain, label: 'MedGemma 4B', offline: false },
+  medgemma: { color: '#1E3A8A', icon: Brain, label: 'AI Reasoning', offline: false },
   safety: { color: '#EF4444', icon: ShieldCheck, label: 'Safety', offline: true },
   summarizer: { color: '#06B6D4', icon: FileText, label: 'Summary', offline: true },
 };

@@ -8,7 +8,7 @@ const submissionLinks = [
 ];
 
 const technologyLinks = [
-  { label: "MedGemma", href: "#" },
+  { label: "AI Model", href: "#" },
   { label: "HAI-DEF", href: "#" },
   { label: "TensorFlow Lite", href: "#" },
   { label: "LoRA Fine-tuning", href: "#" },

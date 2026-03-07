@@ -68,7 +68,7 @@ export function ScreeningBlockchainFlow() {
     if (!form.observations.trim()) {
       toast({
         title: "Missing observations",
-        description: "Please provide observations for MedGemma.",
+        description: "Please provide observations for AI analysis.",
         variant: "destructive",
       });
       return;
@@ -134,7 +134,7 @@ export function ScreeningBlockchainFlow() {
     if (screeningResult.confidence < 0.75) {
       toast({
         title: "Confidence too low",
-        description: "Minting is only available when MedGemma confidence is at least 75%.",
+        description: "Minting is only available when AI confidence is at least 75%.",
         variant: "destructive",
       });
       return;
@@ -260,7 +260,7 @@ export function ScreeningBlockchainFlow() {
               <span aria-hidden className="text-2xl">
                 🩺
               </span>
-              MedGemma screening (on-chain ready)
+              AI screening (on-chain ready)
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -314,7 +314,7 @@ export function ScreeningBlockchainFlow() {
                   Back
                 </Button>
                 <Button type="submit" disabled={submitting}>
-                  {submitting ? "Running analysis…" : "Run MedGemma analysis"}
+                  {submitting ? "Running analysis…" : "Run AI analysis"}
                 </Button>
               </div>
             </form>

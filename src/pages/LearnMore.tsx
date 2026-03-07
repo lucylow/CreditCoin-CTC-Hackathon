@@ -65,7 +65,7 @@ const LearnMore = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="py-3 text-xs text-muted-foreground space-y-2">
-                  <p>MedGemma reasoning engine processes inputs against standardized milestone data.</p>
+                  <p>AI reasoning engine processes inputs against standardized milestone data.</p>
                   <div className="flex flex-wrap gap-1">
                     <Badge variant="secondary" className="text-[9px]">Structured questions</Badge>
                     <Badge variant="secondary" className="text-[9px]">Visual analysis</Badge>

@@ -147,7 +147,7 @@ export default function ROPScreening() {
               className="flex flex-col items-center justify-center py-20 gap-4">
               <Loader2 className="h-12 w-12 animate-spin text-primary" />
               <p className="text-lg font-bold text-foreground">Analyzing retinal image…</p>
-              <p className="text-sm text-muted-foreground">Running ROP detection with MedGemma vision model</p>
+              <p className="text-sm text-muted-foreground">Running ROP detection with AI vision model</p>
             </motion.div>
           )}
 

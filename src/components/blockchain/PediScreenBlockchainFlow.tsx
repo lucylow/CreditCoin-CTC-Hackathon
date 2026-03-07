@@ -45,9 +45,9 @@ export function PediScreenBlockchainFlow() {
 
   const wallet = usePediscreenWallet();
 
-  // Mock MedGemma screening (3s realistic latency)
+  // Mock AI screening (3s realistic latency)
   const runMockScreening = async (input: ScreeningInput) => {
-    await new Promise((resolve) => setTimeout(resolve, 3200)); // MedGemma inference
+    await new Promise((resolve) => setTimeout(resolve, 3200)); // AI inference
 
     const mockBase =
       MOCK_WALLET_DATA.nfts[
@@ -64,7 +64,7 @@ export function PediScreenBlockchainFlow() {
       age: input.age,
       observations: input.observations,
       rawInference:
-        'MedGemma-4B-Pt: "24mo child shows language delay indicators..."',
+        'AI Model: "24mo child shows language delay indicators..."',
       transcript: input.observations,
     };
 
@@ -314,7 +314,7 @@ function ScreeningStep({
         <span aria-hidden className="text-2xl">
           🩺
         </span>
-        MedGemma Screening (Mock)
+        AI Screening (Mock)
       </h2>
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="grid gap-4 md:grid-cols-2">
@@ -351,7 +351,7 @@ function ScreeningStep({
         </div>
         <div className="flex justify-end">
           <Button type="submit" disabled={submitting}>
-            {submitting ? "Running mock analysis…" : "Run MedGemma analysis"}
+            {submitting ? "Running mock analysis…" : "Run AI analysis"}
           </Button>
         </div>
       </form>
@@ -383,7 +383,7 @@ function UploadingStep({
         Upload screening evidence to IPFS (Mock)
       </h2>
       <p className="text-gray-600">
-        We package the MedGemma transcript, risk level, and confidence into a
+        We package the AI transcript, risk level, and confidence into a
         JSON evidence file and upload it to a mock Pinata IPFS gateway for the
         demo.
       </p>
@@ -395,7 +395,7 @@ function UploadingStep({
         </div>
         <p className="line-clamp-3">
           {screeningResult.transcript ||
-            "MedGemma transcript will appear here in production."}
+            "AI transcript will appear here in production."}
         </p>
       </div>
       <Button

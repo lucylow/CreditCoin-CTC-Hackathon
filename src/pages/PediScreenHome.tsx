@@ -9,8 +9,8 @@ const PediScreenHome = () => {
   const features = [
     {
       icon: Brain,
-      title: 'MedGemma Core',
-      description: 'Leveraging Google\'s open-weight MedGemma model fine-tuned for developmental milestones.',
+      title: 'AI Reasoning Core',
+      description: 'Powered by a medical AI model fine-tuned for developmental milestones.',
       color: 'from-primary/20 to-primary/5',
     },
     {
