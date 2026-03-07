@@ -7,7 +7,7 @@ export function Hero() {
   return (
     <section
       className="min-h-[90vh] bg-gradient-to-b from-primary/[0.06] via-background to-background flex items-center justify-center pt-20"
-      aria-label="PediScreen AI — Early detection for every child"
+      aria-label="PediScreen — Early detection for every child"
     >
       <div className="container mx-auto px-4 sm:px-6 text-center max-w-3xl space-y-8">
         {/* Badge */}

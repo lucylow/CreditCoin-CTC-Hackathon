@@ -11,7 +11,7 @@ function renderWithRouter(initialPath = "/") {
 describe("Routing", () => {
   it("renders home page at /", () => {
     renderWithRouter("/");
-    expect(screen.getByRole("link", { name: /PediScreen AI/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /PediScreen/i })).toBeInTheDocument();
   });
 
   it("renders dashboard at /dashboard", () => {

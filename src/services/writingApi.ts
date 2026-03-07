@@ -48,7 +48,7 @@ export const generateStructuredWriting = async (
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      product_name: req.product_name ?? 'PediScreen AI',
+      product_name: req.product_name ?? 'PediScreen',
       model_name: req.model_name ?? 'MedGemma',
       target_audience: req.target_audience,
       writing_mode: req.writing_mode,

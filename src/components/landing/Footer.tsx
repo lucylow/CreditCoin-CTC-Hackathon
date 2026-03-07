@@ -30,7 +30,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2.5 mb-5">
               <Baby className="h-8 w-8 text-accent" />
-              <span className="font-heading text-xl font-bold">PediScreen AI</span>
+              <span className="font-heading text-xl font-bold">PediScreen</span>
             </div>
             <p className="text-background/75 text-sm leading-relaxed mb-6">
               AI-powered pediatric developmental screening on Creditcoin blockchain.
@@ -111,10 +111,10 @@ export function Footer() {
 
         <div className="border-t border-background/20 pt-10 text-center">
           <p className="text-background/60 text-sm">
-            © 2026 Lucy Low | PediScreen AI
+            © 2026 Lucy Low | PediScreen
           </p>
           <p className="text-background/50 text-xs mt-2 max-w-xl mx-auto">
-            Medical Disclaimer: PediScreen AI is a screening aid, not a diagnostic tool.
+            Medical Disclaimer: PediScreen is a screening aid, not a diagnostic tool.
             Always consult healthcare professionals for medical decisions.
           </p>
         </div>

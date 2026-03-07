@@ -85,7 +85,7 @@ const IntegrationsPage = () => {
         <div className="mb-10 space-y-3">
           <h1 className="text-3xl font-bold mb-1">Integrations</h1>
           <p className="text-muted-foreground text-lg">
-            Edge-first PediScreen AI that still plugs cleanly into{" "}
+            Edge-first PediScreen that still plugs cleanly into{" "}
             <span className="font-semibold text-foreground">radiology, lab, and EHR workflows</span>{" "}
             when they are available.
           </p>
@@ -133,7 +133,7 @@ const IntegrationsPage = () => {
         <div className="mt-12 space-y-6">
           <h2 className="text-xl font-semibold">Clinical lab, radiology & dermatology</h2>
           <p className="text-sm text-muted-foreground max-w-3xl">
-            PediScreen AI ships today as a{" "}
+            PediScreen ships today as a{" "}
             <span className="font-semibold text-foreground">non-invasive, smartphone-only prototype</span>.
             The backend contract and FastAPI patterns are designed so you can later plug in point-of-care lab
             devices, chest X‑ray, and dermatology tools like DermaSensor without changing the core CHW workflow.

@@ -19,7 +19,7 @@ export const Default: Story = {
 
 export const WithTitle: Story = {
   args: {
-    title: "PediScreen AI — Quick Screening",
+    title: "PediScreen — Quick Screening",
     children: "Start a developmental screening for your child.",
   },
 };

@@ -17,7 +17,7 @@ const LearnMore = () => {
           Clinical Decision Support Architecture
         </motion.h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          PediScreen AI is a clinical decision support system that facilitates, but does not automate, diagnosis.
+          PediScreen is a clinical decision support system that facilitates, but does not automate, diagnosis.
         </p>
       </section>
 
@@ -25,7 +25,7 @@ const LearnMore = () => {
       <section className="space-y-6">
         <div className="flex items-center gap-2 border-b pb-2">
           <Activity className="w-5 h-5 text-primary" />
-          <h2 className="text-xl font-semibold">PediScreen AI Diagnostic Support Workflow</h2>
+          <h2 className="text-xl font-semibold">PediScreen Diagnostic Support Workflow</h2>
         </div>
         
         <div className="relative p-6 bg-muted/30 rounded-3xl border border-dashed border-muted-foreground/30">
@@ -143,7 +143,7 @@ const LearnMore = () => {
           <div className="mt-8 p-4 bg-background/50 rounded-xl border border-dashed text-center">
             <p className="text-[10px] text-muted-foreground">
               <Info className="inline w-3 h-3 mr-1" />
-              <strong>Key Annotation:</strong> PediScreen AI supports the screening and evaluation stages and does not perform diagnostic decisions.
+              <strong>Key Annotation:</strong> PediScreen supports the screening and evaluation stages and does not perform diagnostic decisions.
             </p>
           </div>
         </div>
@@ -159,7 +159,7 @@ const LearnMore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground leading-relaxed">
-            PediScreen AI is intended to assist healthcare professionals by organizing and presenting developmental screening information. The software does not provide diagnoses, treatment recommendations, or autonomous clinical decisions.
+            PediScreen is intended to assist healthcare professionals by organizing and presenting developmental screening information. The software does not provide diagnoses, treatment recommendations, or autonomous clinical decisions.
           </CardContent>
         </Card>
 
@@ -181,7 +181,7 @@ const LearnMore = () => {
         <CardContent className="py-4 flex items-center gap-4">
           <AlertCircle className="w-6 h-6 text-amber-600 flex-shrink-0" />
           <p className="text-sm text-amber-800">
-            <strong>In-App Safety Notice:</strong> PediScreen AI is a screening support tool. Results must be reviewed and interpreted by a qualified healthcare professional.
+            <strong>In-App Safety Notice:</strong> PediScreen is a screening support tool. Results must be reviewed and interpreted by a qualified healthcare professional.
           </p>
         </CardContent>
       </Card>
