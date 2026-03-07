@@ -2,7 +2,7 @@
  * Federated Learning Dashboard — privacy-first model training with $PEDI rewards on Creditcoin.
  * Three-column layout: sidebar nav, main content, right panel (rewards/clients/activity).
  */
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Lock,
@@ -26,6 +26,8 @@ import {
   ChevronRight,
   Hash,
   Send,
+  PanelLeftClose,
+  PanelLeftOpen,
   Eye,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -80,6 +82,7 @@ type SidebarTab = "dashboard" | "clients" | "submissions" | "rewards" | "docs";
 
 const FederatedLearningPage = () => {
   const [activeTab, setActiveTab] = useState<SidebarTab>("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const wallet = usePediScreenWallet();
   const fedLearning = useFedLearning();
 
@@ -141,10 +144,22 @@ const FederatedLearningPage = () => {
         {!isConnected ? (
           <NotConnectedState onConnectMock={() => wallet.connectMock()} />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* ── Left Sidebar ── */}
-            <aside className="hidden lg:block lg:col-span-2">
-              <nav className="sticky top-32 space-y-1">
+          <div className="flex gap-6">
+            {/* ── Left Sidebar (retractable) ── */}
+            <motion.aside
+              initial={false}
+              animate={{ width: sidebarOpen ? 180 : 48 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="hidden lg:flex flex-col shrink-0 overflow-hidden"
+            >
+              <div className="sticky top-32 space-y-1">
+                <button
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="w-full flex items-center justify-center p-2 mb-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                  title={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+                >
+                  {sidebarOpen ? <PanelLeftClose className="w-4 h-4" /> : <PanelLeftOpen className="w-4 h-4" />}
+                </button>
                 {([
                   { id: "dashboard", icon: Home, label: "Dashboard" },
                   { id: "clients", icon: Cpu, label: "My Clients" },
@@ -155,22 +170,32 @@ const FederatedLearningPage = () => {
                   <button
                     key={item.id}
                     onClick={() => setActiveTab(item.id)}
+                    title={item.label}
                     className={cn(
-                      "w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                      "w-full flex items-center gap-2.5 rounded-lg text-sm font-medium transition-colors",
+                      sidebarOpen ? "px-3 py-2.5" : "justify-center px-0 py-2.5",
                       activeTab === item.id
                         ? "bg-primary/10 text-primary border-l-2 border-primary"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
                     )}
                   >
-                    <item.icon className="w-4 h-4" />
-                    {item.label}
+                    <item.icon className="w-4 h-4 shrink-0" />
+                    {sidebarOpen && (
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="truncate"
+                      >
+                        {item.label}
+                      </motion.span>
+                    )}
                   </button>
                 ))}
-              </nav>
-            </aside>
+              </div>
+            </motion.aside>
 
             {/* ── Main Content ── */}
-            <main className="lg:col-span-6 min-w-0 space-y-6">
+            <main className="flex-1 min-w-0 space-y-6">
               <AnimatePresence mode="wait">
                 {activeTab === "dashboard" && <DashboardView key="dashboard" fedLearning={fedLearning} />}
                 {activeTab === "clients" && <ClientsView key="clients" />}
@@ -181,7 +206,7 @@ const FederatedLearningPage = () => {
             </main>
 
             {/* ── Right Panel ── */}
-            <aside className="lg:col-span-4 space-y-4">
+            <aside className="hidden lg:block w-80 shrink-0 space-y-4">
               <RewardsCard />
               <ActiveClientsCard />
               <ActivityFeedCard />
