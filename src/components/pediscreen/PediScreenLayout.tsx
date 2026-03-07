@@ -173,6 +173,7 @@ const PediScreenLayout = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const [sheetOpen, setSheetOpen] = React.useState(false);
+  const [sidebarOpen, setSidebarOpen] = React.useState(true);
   const breadcrumbs = getBreadcrumbs(location.pathname);
 
   return (
@@ -259,18 +260,56 @@ const PediScreenLayout = () => {
         </div>
       </div>
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 relative">
+        {/* Sidebar toggle button — always visible on desktop */}
+        {!isMobile && (
+          <AnimatePresence>
+            {!sidebarOpen && (
+              <motion.button
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                onClick={() => setSidebarOpen(true)}
+                className="fixed top-[120px] left-3 z-40 flex items-center gap-2 px-3 py-2 rounded-xl bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-colors text-sm font-medium"
+              >
+                <Menu className="w-4 h-4" />
+                Menu
+              </motion.button>
+            )}
+          </AnimatePresence>
+        )}
+
         {/* Desktop Sidebar */}
         {!isMobile && (
-          <aside className="w-60 border-r border-border/80 bg-card/70 backdrop-blur-sm hidden lg:flex flex-col">
-            <NavContent />
-            <div className="mt-auto p-4 border-t border-border/80">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 text-center border border-primary/10">
-                <Sparkles className="w-5 h-5 text-primary mx-auto mb-1" />
-                <p className="text-xs text-muted-foreground">AI-powered screening</p>
-              </div>
-            </div>
-          </aside>
+          <AnimatePresence>
+            {sidebarOpen && (
+              <motion.aside
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: 240, opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.25, ease: 'easeInOut' }}
+                className="border-r border-border/80 bg-card/70 backdrop-blur-sm hidden lg:flex flex-col overflow-hidden shrink-0"
+              >
+                <NavContent />
+                {/* Hide Menu button */}
+                <div className="mt-auto border-t border-border/80">
+                  <button
+                    onClick={() => setSidebarOpen(false)}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Hide Menu
+                  </button>
+                  <div className="p-4 pt-0">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 text-center border border-primary/10">
+                      <Sparkles className="w-5 h-5 text-primary mx-auto mb-1" />
+                      <p className="text-xs text-muted-foreground">AI-powered screening</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.aside>
+            )}
+          </AnimatePresence>
         )}
 
         {/* Main Content with Page Transitions */}
