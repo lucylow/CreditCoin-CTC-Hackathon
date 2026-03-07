@@ -225,7 +225,7 @@ function WalletConnectStep({
       </div>
 
       <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-6">
-        PediScreen AI
+        PediScreen
       </h1>
       <h2 className="text-2xl font-bold text-gray-900 mb-8">
         Blockchain Medical Screening

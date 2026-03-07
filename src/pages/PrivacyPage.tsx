@@ -39,7 +39,7 @@ export default function PrivacyPage() {
           {
             icon: Lock,
             title: "Clinical decision support, not surveillance",
-            body: "PediScreen AI is designed to support developmental screening by clinicians and CHWs. We do not use screening data for advertising, and we do not sell personal health information.",
+            body: "PediScreen is designed to support developmental screening by clinicians and CHWs. We do not use screening data for advertising, and we do not sell personal health information.",
           },
           {
             icon: Server,

@@ -4,7 +4,7 @@ export default function NewScreeningPage() {
       <header>
         <h1 className="text-2xl font-semibold tracking-tight">New screening</h1>
         <p className="text-sm text-muted-foreground">
-          Use the PediScreen AI workflow to create a new developmental screening.
+          Use the PediScreen workflow to create a new developmental screening.
         </p>
       </header>
       <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground">

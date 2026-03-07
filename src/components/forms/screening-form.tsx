@@ -43,7 +43,7 @@ export function ScreeningForm({ defaultValues, onSubmit, submitting }: Screening
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         className="space-y-6"
-        aria-label="PediScreen AI screening form"
+        aria-label="PediScreen screening form"
       >
         <FormField
           control={form.control}

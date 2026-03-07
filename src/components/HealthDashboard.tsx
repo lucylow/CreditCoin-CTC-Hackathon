@@ -12,7 +12,7 @@ export function HealthDashboard() {
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-gray-900 to-emerald-900 bg-clip-text text-transparent mb-4">
-          PediScreen AI Health Dashboard
+          PediScreen Health Dashboard
         </h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
           Real-time vitals monitoring + longitudinal developmental trends

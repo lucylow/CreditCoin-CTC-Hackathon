@@ -412,7 +412,7 @@ export default function InteractiveScreeningDemo() {
                 <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white/20">
                   <Stethoscope className="w-5 h-5" />
                 </span>
-                PediScreen AI
+                PediScreen
               </h1>
               <p className="text-sm opacity-95 mt-1 max-w-xl">
                 MedGemma-powered pediatric developmental screening. Designed for community health workers and

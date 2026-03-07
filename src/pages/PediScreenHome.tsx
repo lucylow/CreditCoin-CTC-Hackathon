@@ -57,7 +57,7 @@ const PediScreenHome = () => {
           A communication bridge for caregivers and clinicians
         </p>
         <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
-          PediScreen AI organizes, contextualizes, and communicates screening evidence so clinicians can make more informed diagnostic decisions.
+          PediScreen organizes, contextualizes, and communicates screening evidence so clinicians can make more informed diagnostic decisions.
         </p>
         
         {/* New core framing points */}
@@ -215,7 +215,7 @@ const PediScreenHome = () => {
             </p>
             <p className="text-muted-foreground leading-relaxed">
               For families in underserved areas or with limited specialist access, wait times can reach 6-12 months. 
-              PediScreen AI is designed to scale quality support and provide a standardized tool that helps bridge these resource gaps.
+              PediScreen is designed to scale quality support and provide a standardized tool that helps bridge these resource gaps.
             </p>
           </div>
           <Card className="bg-primary/5 border-none shadow-none">

@@ -7,7 +7,7 @@ export function Hero() {
   return (
     <section
       className="min-h-[90vh] bg-gradient-to-b from-primary/[0.06] via-background to-background flex items-center justify-center pt-20"
-      aria-label="PediScreen AI — Early detection for every child"
+      aria-label="PediScreen — Early detection for every child"
     >
       <div className="container mx-auto px-4 sm:px-6 text-center max-w-3xl space-y-8">
         {/* Badge */}
@@ -38,7 +38,7 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
         >
-          PediScreen AI leverages Google's MedGemma model to provide accessible, private
+          PediScreen leverages AI to provide accessible, private
           developmental screening for children aged 0–5, helping identify delays when
           intervention matters most.
         </motion.p>

@@ -75,7 +75,7 @@ const TechnicalWriter = () => {
     setError(null);
     try {
       const res = await generateStructuredWriting({
-        product_name: 'PediScreen AI',
+        product_name: 'PediScreen',
         model_name: 'MedGemma',
         target_audience: audience,
         writing_mode: mode,

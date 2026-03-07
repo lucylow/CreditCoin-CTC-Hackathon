@@ -38,7 +38,7 @@ export default function Signup() {
         <CardHeader>
           <CardTitle>Sign up</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Create your PediScreen AI account
+            Create your PediScreen account
           </p>
         </CardHeader>
         <CardContent className="space-y-4">

@@ -2,7 +2,7 @@ export default function MarketingLandingPage() {
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6 px-4 py-10">
       <h1 className="bg-gradient-to-r from-emerald-700 to-sky-700 bg-clip-text text-3xl font-black tracking-tight text-transparent sm:text-4xl">
-        PediScreen AI — MedGemma Pediatric Screening Assistant
+        PediScreen — Pediatric Screening Assistant
       </h1>
       <p className="text-base text-muted-foreground sm:text-lg">
         A medical-grade, MedGemma-powered platform for pediatric developmental screening,

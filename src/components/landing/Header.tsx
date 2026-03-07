@@ -23,7 +23,7 @@ export function Header() {
           <Link to="/" className="flex items-center gap-2.5 rounded-xl py-2 px-2 -ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors hover:bg-muted/50">
             <Baby className="h-8 w-8 text-primary" />
             <span className="font-heading text-xl font-bold text-foreground">
-              PediScreen AI
+              PediScreen
             </span>
           </Link>
 

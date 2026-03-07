@@ -248,7 +248,7 @@ const Profiles = () => {
               <div>
                 <h3 className="text-lg font-bold mb-1">Personalized Milestones</h3>
                 <p className="text-muted-foreground">
-                  By creating a profile, PediScreen AI tailors its screening questions and visual analysis 
+                  By creating a profile, PediScreen tailors its screening questions and visual analysis 
                   to the child's specific age and previous developmental history.
                 </p>
               </div>

@@ -28,7 +28,7 @@ export default function NavBar({ user, className }: NavBarProps) {
     >
       <Link to="/" className="flex items-center gap-2.5 font-bold text-lg rounded-lg py-2 px-2 -ml-2 hover:bg-muted/50 transition-colors">
         <Baby className="w-6 h-6 text-primary" />
-        <span>PediScreen AI</span>
+        <span>PediScreen</span>
       </Link>
 
       <ul className="flex items-center gap-1 md:gap-2">

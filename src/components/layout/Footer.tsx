@@ -15,7 +15,7 @@ export default function Footer({ className }: FooterProps) {
       role="contentinfo"
     >
       <p>
-        PediScreen AI — Not a diagnostic tool. Always consult a healthcare
+        PediScreen — Not a diagnostic tool. Always consult a healthcare
         provider.
       </p>
       <div className="mt-3 flex justify-center gap-6">

@@ -39,7 +39,7 @@ export default function Login() {
         <CardHeader>
           <CardTitle>Log in</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Sign in to your PediScreen AI account
+            Sign in to your PediScreen account
           </p>
         </CardHeader>
         <CardContent className="space-y-4">

@@ -22,7 +22,7 @@ type Story = StoryObj;
 export const Home: Story = {
   render: () => (
     <div style={{ maxWidth: 480, margin: "0 auto" }}>
-      <MedGemmaCard title="PediScreen AI — Quick Screening">
+      <MedGemmaCard title="PediScreen — Quick Screening">
         <p style={{ marginBottom: 16 }}>
           Start a developmental screening for your child.
         </p>

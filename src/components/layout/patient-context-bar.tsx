@@ -12,7 +12,7 @@ export function PatientContextBar({ patient }: PatientContextBarProps) {
           <PatientCard patient={patient} className="flex-1 shadow-none border-emerald-200" />
         </div>
         <div className="hidden text-xs text-muted-foreground md:block">
-          <p className="font-medium text-foreground">PediScreen AI</p>
+          <p className="font-medium text-foreground">PediScreen</p>
           <p>MedGemma-powered pediatric screening assistant</p>
         </div>
       </div>

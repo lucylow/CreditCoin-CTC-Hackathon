@@ -28,7 +28,7 @@ export function MultiAgentHealthDashboard() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-gray-900 via-blue-900 to-emerald-900 bg-clip-text text-transparent mb-2">
-              PediScreen AI
+              PediScreen
             </h1>
             <p className="text-xl text-gray-700 font-semibold">
               Multi-Agent Health Analysis

@@ -32,7 +32,7 @@ export function CHWWorkflowSection() {
         >
           <h2 className="section-title">Community Health Worker Workflow</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mt-6">
-            Explore how CHWs use PediScreen AI in field settings with limited connectivity.
+            Explore how CHWs use PediScreen in field settings with limited connectivity.
           </p>
         </motion.div>
 

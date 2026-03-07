@@ -160,7 +160,7 @@ export default function AgentDashboard() {
         <div className="text-center space-y-4">
           <div className="flex flex-wrap items-center justify-center gap-3">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-primary">
-              PediScreen AI
+              PediScreen
             </h1>
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-success text-success-foreground">
               Multi-Agent Orchestration
