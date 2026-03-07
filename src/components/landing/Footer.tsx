@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Baby, Video, Github, FileText, Trophy } from "lucide-react";
+import { Baby, Video, Github, FileText } from "lucide-react";
 
 const submissionLinks = [
   { icon: Video, label: "3-Minute Video Demo", href: "#" },
