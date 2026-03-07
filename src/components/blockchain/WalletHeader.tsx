@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { usePediScreenWallet } from "@/hooks/usePediScreenWallet";
 import { MOCK_WALLET_DATA } from "@/data/mockWallet";
+import { getBlockExplorerAddressUrl, getChainName } from "@/config/blockchain";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Wallet, ChevronDown, Copy, ExternalLink, LogOut, Check } from "lucide-react";
@@ -13,7 +14,6 @@ export function WalletHeader() {
 
   const hasEthereum = typeof window !== "undefined" && !!window.ethereum;
 
-  // Use mock data when no MetaMask or user chose mock mode
   const mockData = MOCK_WALLET_DATA.connected;
   const isConnected = useMock || wallet.isConnected;
   const address = useMock ? mockData.address : wallet.address;
@@ -25,11 +25,10 @@ export function WalletHeader() {
     ? `${address.slice(0, 6)}…${address.slice(-4)}`
     : null;
 
-  const chainName = chainId === 137 ? "Polygon" : chainId === 80002 ? "Amoy" : chainId === 8453 ? "Base" : chainId === 84532 ? "Base Sepolia" : chainId ? `Chain ${chainId}` : null;
+  const chainName = chainId ? getChainName(chainId) : null;
 
   const handleConnect = useCallback(async () => {
     if (!hasEthereum) {
-      // No MetaMask → use mock
       setUseMock(true);
       return;
     }
@@ -120,7 +119,7 @@ export function WalletHeader() {
                 )}
               </div>
               <p className="text-2xl font-bold text-foreground">
-                {balance ?? "—"} <span className="text-sm font-normal text-muted-foreground">MATIC</span>
+                {balance ?? "—"} <span className="text-sm font-normal text-muted-foreground">CTC</span>
               </p>
               <div className="mt-3 flex items-center gap-2">
                 <span className="font-mono text-xs text-muted-foreground flex-1 truncate">
@@ -164,10 +163,9 @@ export function WalletHeader() {
               <button
                 type="button"
                 onClick={() => {
-                  const url = chainId === 137
-                    ? `https://polygonscan.com/address/${address}`
-                    : `https://amoy.polygonscan.com/address/${address}`;
-                  window.open(url, "_blank");
+                  if (address && chainId) {
+                    window.open(getBlockExplorerAddressUrl(chainId, address), "_blank");
+                  }
                 }}
                 className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-foreground hover:bg-muted transition-colors"
               >

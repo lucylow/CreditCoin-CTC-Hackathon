@@ -184,8 +184,8 @@ export const AccessibleNFTGallery: React.FC<AccessibleNFTGalleryProps> = ({
                 />
                 <WalletActionButton
                   action="verify"
-                  label="View on PolygonScan"
-                  href={`https://polygonscan.com/token/0x742d35Cc6b6DBcF823d80ADa7017a40A9D0e6637?a=${nft.tokenId}`}
+                  label="View on Explorer"
+                  href={`https://testnet-explorer.creditcoin.org/token/0x742d35Cc6b6DBcF823d80ADa7017a40A9D0e6637?a=${nft.tokenId}`}
                 />
               </nav>
             </article>

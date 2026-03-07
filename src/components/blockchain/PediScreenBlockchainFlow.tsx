@@ -232,9 +232,9 @@ function WalletConnectStep({
       </h2>
 
       <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-        Connect wallet to run MedGemma screening and mint tamper-proof
+        Connect wallet to run AI screening and mint tamper-proof
         certificates. Your child&apos;s developmental records, secured forever
-        on Polygon + IPFS.
+        on Creditcoin + IPFS.
       </p>
 
       {/* Wallet Button */}
@@ -472,7 +472,7 @@ function MintingStep({
           className="px-10 py-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-3xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all w-fit mx-auto"
         >
           {minting
-            ? "Minting NFT on Polygon (Mock)…"
+            ? "Minting NFT on Creditcoin (Mock)…"
             : "⛓️ Mint NFT certificate (Mock)"}
         </Button>
       </div>

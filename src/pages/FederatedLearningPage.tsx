@@ -46,7 +46,7 @@ const FederatedLearningPage = () => {
               <Coins className="w-8 h-8 text-primary mb-4" />
               <h3 className="font-bold mb-2">$PEDI rewards</h3>
               <p className="text-sm text-muted-foreground">
-                Earn 10 $PEDI per datapoint. Connect wallet and deploy on Polygon Amoy to participate.
+                Earn 10 $PEDI per datapoint. Connect wallet and deploy on Creditcoin to participate.
               </p>
             </CardContent>
           </Card>

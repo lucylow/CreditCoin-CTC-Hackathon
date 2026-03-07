@@ -87,7 +87,7 @@ export function OracleDashboard() {
                 </div>
                 <div className="flex gap-2">
                   <button className="flex-1 px-4 py-2 bg-blue-600 text-white text-xs rounded-xl font-bold hover:bg-blue-700 transition-all">
-                    🔗 PolygonScan (Mock)
+                    🔗 Creditcoin Explorer (Mock)
                   </button>
                   <button className="flex-1 px-4 py-2 border border-gray-300 text-xs rounded-xl font-medium hover:bg-gray-50 transition-all">
                     📋 Copy

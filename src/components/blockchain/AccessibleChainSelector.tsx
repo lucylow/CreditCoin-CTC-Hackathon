@@ -2,8 +2,8 @@ import React from "react";
 import { usePediScreenWallet } from "@/hooks/usePediScreenWallet";
 
 const CHAINS = [
-  { id: 137, name: "Polygon", recommended: true },
-  { id: 8453, name: "Base" },
+  { id: 336, name: "Creditcoin", recommended: true },
+  { id: 337, name: "CTC Testnet" },
 ];
 
 export const AccessibleChainSelector: React.FC = () => {
@@ -50,4 +50,3 @@ export const AccessibleChainSelector: React.FC = () => {
     </div>
   );
 };
-
