@@ -42,6 +42,7 @@ from app.api import (
     rwa,
     insurance,
     security,
+    federated,
 )
 from app.errors import ErrorResponse, ErrorCodes
 from app.utils.error_formatter import api_error
@@ -181,6 +182,7 @@ app.include_router(creditcoin_screening.router)
 app.include_router(rwa.router)
 app.include_router(insurance.router)
 app.include_router(security.router)
+app.include_router(federated.router)
 
 @app.on_event("startup")
 async def startup_event():

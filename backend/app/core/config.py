@@ -82,6 +82,7 @@ class Settings(BaseSettings):
     RISK_ENGINE_ADDRESS: Optional[str] = Field(None, env="RISK_ENGINE_ADDRESS")
     CHW_REGISTRY_ADDRESS: Optional[str] = Field(None, env="CHW_REGISTRY_ADDRESS")
     PEDISC_TOKEN_ADDRESS: Optional[str] = Field(None, env="PEDISC_TOKEN_ADDRESS")
+    FED_COORDINATOR_ADDRESS: Optional[str] = Field(None, env="FED_COORDINATOR_ADDRESS")
     HEALTH_CHAIN_ADDRESS: Optional[str] = Field(None, env="HEALTH_CHAIN_ADDRESS")
     # Security (Creditcoin-native): consent + audit – no raw PHI on-chain
     CONSENT_REGISTRY_ADDRESS: Optional[str] = Field(None, env="CONSENT_REGISTRY_ADDRESS")

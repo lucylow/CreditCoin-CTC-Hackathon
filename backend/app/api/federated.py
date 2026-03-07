@@ -34,7 +34,7 @@ class SubmitContributionRequest(BaseModel):
     round_id: int
     data_path: str = "mock"
     data_points: int = 100
-    contributor_key: str = ""
+    contributor_key: str = ""  # optional when backend has CONTRIBUTOR_PRIVATE_KEY (demo)
 
 
     class Config:
@@ -121,8 +121,9 @@ async def submit_contribution_endpoint(req: SubmitContributionRequest):
     """
     if not is_federated_configured():
         raise HTTPException(503, "Federated learning not configured")
-    if not req.contributor_key:
-        raise HTTPException(400, "contributor_key required to sign the transaction")
+    contributor_key = req.contributor_key or os.getenv("CONTRIBUTOR_PRIVATE_KEY") or os.getenv("CTC_PRIVATE_KEY") or os.getenv("BACKEND_PRIVATE_KEY")
+    if not contributor_key:
+        raise HTTPException(400, "contributor_key required or set CONTRIBUTOR_PRIVATE_KEY / CTC_PRIVATE_KEY")
 
     model_hash_bytes = run_local_training(req.data_path)
     model_hash_hex = compute_model_hash(model_hash_bytes)
@@ -138,7 +139,7 @@ async def submit_contribution_endpoint(req: SubmitContributionRequest):
             req.round_id,
             req.data_points,
             model_hash_hex,
-            req.contributor_key,
+            contributor_key,
         )
     except Exception as e:
         logger.exception("Submit contribution failed: %s", e)
@@ -185,6 +186,7 @@ async def close_round(round_id: int, body: CloseRoundRequest):
 async def get_round_contributions(round_id: int):
     """List all contributions for a round (view call, no gas)."""
     fed = get_fed_coordinator_contract()
+    w3 = get_web3()
     if not fed:
         raise HTTPException(503, "FedCoordinator not configured")
     try:
@@ -196,11 +198,15 @@ async def get_round_contributions(round_id: int):
     for c in contribs:
         if isinstance(c, (list, tuple)) and len(c) >= 6:
             contributor, rnd, data_pts, model_hash, ts, rewarded = c[0], c[1], c[2], c[3], c[4], c[5]
+            if hasattr(contributor, "hex"):
+                contributor = w3.to_checksum_address("0x" + contributor.hex()[-40:]) if w3 else str(contributor)
+            elif not isinstance(contributor, str):
+                contributor = str(contributor)
             model_hash_hex = model_hash.hex() if hasattr(model_hash, "hex") else str(model_hash)
             if not model_hash_hex.startswith("0x"):
                 model_hash_hex = "0x" + model_hash_hex
             out.append(ContributionItem(
-                contributor=contributor if isinstance(contributor, str) else contributor,
+                contributor=contributor,
                 round=rnd,
                 dataPoints=data_pts,
                 modelHash=model_hash_hex,
@@ -208,13 +214,20 @@ async def get_round_contributions(round_id: int):
                 rewarded=rewarded,
             ))
         else:
+            addr = getattr(c, "contributor", c[0] if isinstance(c, (list, tuple)) and len(c) > 0 else "")
+            if hasattr(addr, "hex"):
+                addr = w3.to_checksum_address("0x" + addr.hex()[-40:]) if w3 else str(addr)
+            mh = getattr(c, "modelHash", c[3] if isinstance(c, (list, tuple)) and len(c) > 3 else b"")
+            mh_hex = mh.hex() if hasattr(mh, "hex") else str(mh)
+            if mh_hex and not mh_hex.startswith("0x"):
+                mh_hex = "0x" + mh_hex
             out.append(ContributionItem(
-                contributor=getattr(c, "contributor", str(c)),
-                round=getattr(c, "round", round_id),
-                dataPoints=getattr(c, "dataPoints", 0),
-                modelHash=getattr(c, "modelHash", b"").hex() if hasattr(getattr(c, "modelHash", b""), "hex") else str(getattr(c, "modelHash", "")),
-                timestamp=getattr(c, "timestamp", 0),
-                rewarded=getattr(c, "rewarded", False),
+                contributor=str(addr),
+                round=getattr(c, "round", c[1] if isinstance(c, (list, tuple)) and len(c) > 1 else round_id),
+                dataPoints=getattr(c, "dataPoints", c[2] if isinstance(c, (list, tuple)) and len(c) > 2 else 0),
+                modelHash=mh_hex,
+                timestamp=getattr(c, "timestamp", c[4] if isinstance(c, (list, tuple)) and len(c) > 4 else 0),
+                rewarded=getattr(c, "rewarded", c[5] if isinstance(c, (list, tuple)) and len(c) > 5 else False),
             ))
     return out
 
@@ -227,3 +240,21 @@ async def get_current_round():
         raise HTTPException(503, "FedCoordinator not configured")
     current = fed.functions.currentRound().call()
     return {"current_round": current}
+
+
+@router.get("/balance")
+async def get_pedisc_balance(address: str):
+    """Return PEDISC token balance for an address (view call)."""
+    from app.services.creditcoin import get_fed_pedisc_contract
+    pedisc = get_fed_pedisc_contract()
+    if not pedisc:
+        raise HTTPException(503, "PEDISC token not configured")
+    try:
+        addr = address.strip()
+        if not addr.startswith("0x"):
+            addr = "0x" + addr
+        balance = pedisc.functions.balanceOf(addr).call()
+        return {"address": addr, "balance": str(balance), "symbol": "PEDISC"}
+    except Exception as e:
+        logger.warning("balanceOf failed: %s", e)
+        raise HTTPException(500, str(e))

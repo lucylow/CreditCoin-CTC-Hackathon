@@ -131,7 +131,7 @@ async def mint_screening(req: MintRequest):
         logger.exception("Creditcoin mint failed: %s", e)
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"Mint transaction failed: {str(e)}",
+            detail="Mint transaction failed",
         ) from e
 
     # Parse tokenId from ScreeningMinted event (indexed tokenId in topics[1])
@@ -219,7 +219,7 @@ async def verify_screening(req: AttestationRequest):
         logger.exception("Creditcoin attestation failed: %s", e)
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"Attestation failed: {str(e)}",
+            detail="Attestation failed",
         ) from e
 
     return {

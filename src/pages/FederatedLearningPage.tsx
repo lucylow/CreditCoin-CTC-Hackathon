@@ -46,7 +46,7 @@ const FederatedLearningPage = () => {
               <Coins className="w-8 h-8 text-primary mb-4" />
               <h3 className="font-bold mb-2">$PEDI rewards</h3>
               <p className="text-sm text-muted-foreground">
-                Earn 10 $PEDI per datapoint. Connect wallet and deploy on Creditcoin to participate.
+                Earn 10 PEDISC per datapoint. Connect wallet on Creditcoin (chain 337) to participate.
               </p>
             </CardContent>
           </Card>
@@ -59,7 +59,7 @@ const FederatedLearningPage = () => {
               Client control panel
             </CardTitle>
             <CardDescription>
-              Register your client and submit gradient hashes. Requires VITE_FED_COORDINATOR_ADDRESS and wallet connection.
+              Submit contributions (backend runs mock training and submits to FedCoordinator). Requires VITE_FED_COORDINATOR_ADDRESS and Creditcoin wallet.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -74,7 +74,7 @@ const FederatedLearningPage = () => {
           className="mt-8 flex items-center gap-2 text-sm text-muted-foreground"
         >
           <ArrowRight className="w-4 h-4" />
-          <span>See docs: FEDERATED_LEARNING.md and contracts (PediScreenFedCoordinator, PEDIRewardToken).</span>
+          <span>See docs: FEDERATED_LEARNING.md and contracts (FedCoordinator, PEDISC) on Creditcoin EVM.</span>
         </motion.div>
       </motion.div>
     </div>

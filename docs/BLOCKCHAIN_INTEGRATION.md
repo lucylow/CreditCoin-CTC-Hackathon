@@ -11,14 +11,14 @@ PediScreen uses on-chain/off-chain records for HIPAA-compliant screening hashes,
 | `contracts/PediScreenRegistry.sol` | Hash-only screening registry: `recordScreening(screeningIdHash, reportHash)` for tamper-proof audit (no PHI on-chain) |
 | `contracts/PaymentEscrow.sol` | USDC micropayments |
 | `contracts/HealthChainPOC.sol` | Base L2 patient data exchange (encrypted FHIR → IPFS, consent manager) |
-| `contracts/PediScreenFedCoordinator.sol`, `contracts/PEDIRewardToken.sol` | Federated learning: register, submit gradient hashes, earn $PEDI |
+| `contracts/FedCoordinator.sol`, `contracts/PEDISC.sol` | Federated learning: submit contributions, earn PEDISC (Creditcoin EVM) |
 
 Deploy:
 
 - **Creditcoin EVM (CTC):** `npx hardhat run scripts/deploy-creditcoin.js --network creditcoinTestnet` — PediScreen NFT, RiskEngine, CHWRegistry, PEDISC. See [CREDITCOIN_INTEGRATION.md](CREDITCOIN_INTEGRATION.md).
 - **Polygon Amoy:** `npx hardhat run scripts/deploy-blockchain.js --network polygonAmoy`
 - **HealthChain (Base Sepolia):** `npx hardhat run scripts/deployHealthChain.js --network base-sepolia`
-- **Federated:** `npx hardhat run scripts/deploy-federated.js --network polygonAmoy`
+- **Federated:** `npx hardhat run scripts/deploy_fed.js --network creditcoinTestnet`
 
 ## Main app (Lovable / root `src/`)
 
@@ -66,7 +66,7 @@ Deploy: `supabase functions deploy verify-screening`
 
 - **PediScreenRegistry (hash-only):** Wired in `usePediScreenRegistry` and `BlockchainAnchorCard` — `recordScreening`, `getScreening`, `exists`.
 - **useHealthChain:** call HealthChainPOC `createPatientRecord`, `getRecord`, `grantConsent`, `revokeConsent` (see `test/HealthChainPOC.test.js`).
-- **useFedLearning:** call PediScreenFedCoordinator `register` / `submitGradientHash` and PEDIRewardToken `balanceOf`.
+- **useFedLearning:** call backend `/api/federated/submit` and `/api/federated/balance`; FedCoordinator + PEDISC on Creditcoin.
 - **ScreeningResultBlockchain:** optional NFT mint (PediScreenRegistry ERC721 or similar) with screening metadata and aiReportHash.
 
 See `pediscreen-dao-frontend` for a full wagmi + contract integration example.

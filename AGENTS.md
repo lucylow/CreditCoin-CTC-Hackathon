@@ -95,7 +95,7 @@ Full multi-agent spec (Embedder, ModelReasoner, TriageScorer, Audit, EHR, etc.):
 
 - **Architecture:** Flower clients (hospitals/CHW) train MedGemma LoRA locally; server aggregates with FedAvg + differential privacy (ε=1.0). No raw data leaves devices.
 - **Paths:** `training/federated/client.py`, `training/federated/server.py`, `training/federated/config.py`.
-- **Contracts:** `contracts/PediScreenFedCoordinator.sol`, `contracts/PEDIRewardToken.sol` — register, submit gradient hashes, earn $PEDI (10 per datapoint). Deploy: `npx hardhat run scripts/deploy-federated.js --network polygonAmoy`.
+- **Contracts:** `contracts/FedCoordinator.sol`, `contracts/PEDISC.sol` — submit contribution (round, dataPoints, modelHash), earn PEDISC (10 per datapoint). Deploy: `npx hardhat run scripts/deploy_fed.js --network creditcoinTestnet`. No Polygon.
 - **Frontend:** `src/components/blockchain/FedLearningClient.tsx`, `src/hooks/useFedLearning.ts` — register client, submit gradients (hash + datapoints).
 - **Doc:** [docs/FEDERATED_LEARNING.md](docs/FEDERATED_LEARNING.md).
 
