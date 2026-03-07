@@ -1,6 +1,7 @@
 /**
  * PediScreen wallet connection (HIPAA blockchain, NFT mint, HealthChain).
  * Creditcoin hackathon: targets Creditcoin Mainnet (336) / Testnet (337).
+ * Supports mock mode for demo without real wallet extension.
  */
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -26,7 +27,10 @@ export interface UsePediScreenWalletResult {
   chainId: number | null;
   isConnecting: boolean;
   isConnected: boolean;
+  isMock: boolean;
+  ctcBalance: string | null;
   connect: () => Promise<void>;
+  connectMock: () => void;
   disconnect: () => void;
   switchChain: (targetChainId: number) => Promise<void>;
   error: string | null;
@@ -44,19 +48,37 @@ function getCreditcoinNetworkParams(targetChainId: number) {
   };
 }
 
+const MOCK_ACCOUNTS = [
+  { address: "0x742d35Cc6b6DBcF823d80ADa7017a40A9D0e6637", balance: "1250.42" },
+  { address: "0x8Ba1f109551bD432803012645Ac136ddd64DBA72", balance: "3200.00" },
+  { address: "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B", balance: "75.30" },
+];
+
 export function usePediScreenWallet(): UsePediScreenWalletResult {
   const [address, setAddress] = useState<string | null>(null);
   const [chainId, setChainId] = useState<number | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [isMock, setIsMock] = useState(false);
+  const [ctcBalance, setCtcBalance] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const connectMock = useCallback(() => {
+    const account = MOCK_ACCOUNTS[Math.floor(Math.random() * MOCK_ACCOUNTS.length)];
+    setAddress(account.address);
+    setCtcBalance(account.balance);
+    setChainId(337); // Creditcoin Testnet
+    setIsMock(true);
+    setError(null);
+  }, []);
 
   const connect = useCallback(async () => {
     if (!window.ethereum) {
-      setError("No wallet found. Install MetaMask or another Web3 wallet.");
+      setError("No wallet found. Install MetaMask or use Creditcoin Testnet (Demo).");
       return;
     }
     setIsConnecting(true);
     setError(null);
+    setIsMock(false);
     try {
       const accounts = (await window.ethereum.request({
         method: "eth_requestAccounts",
@@ -86,10 +108,16 @@ export function usePediScreenWallet(): UsePediScreenWalletResult {
   const disconnect = useCallback(() => {
     setAddress(null);
     setChainId(null);
+    setCtcBalance(null);
+    setIsMock(false);
     setError(null);
   }, []);
 
   const switchChain = useCallback(async (targetChainId: number) => {
+    if (isMock) {
+      setChainId(targetChainId);
+      return;
+    }
     if (!window.ethereum) return;
     const hexChainId = `0x${targetChainId.toString(16)}`;
     try {
@@ -111,10 +139,10 @@ export function usePediScreenWallet(): UsePediScreenWalletResult {
         throw err;
       }
     }
-  }, []);
+  }, [isMock]);
 
   useEffect(() => {
-    if (!window.ethereum) return;
+    if (isMock || !window.ethereum) return;
     const onAccounts = (accounts: unknown) => {
       const acc = Array.isArray(accounts) ? accounts[0] : null;
       setAddress(typeof acc === "string" ? acc : null);
@@ -129,14 +157,17 @@ export function usePediScreenWallet(): UsePediScreenWalletResult {
       window.ethereum?.on?.("accountsChanged", () => {});
       window.ethereum?.on?.("chainChanged", () => {});
     };
-  }, []);
+  }, [isMock]);
 
   return {
     address,
     chainId,
     isConnecting,
     isConnected: !!address,
+    isMock,
+    ctcBalance,
     connect,
+    connectMock,
     disconnect,
     switchChain,
     error,
@@ -183,7 +214,9 @@ export function usePediscreenWallet() {
     chainId,
     isConnecting,
     isConnected,
+    isMock,
     connect,
+    connectMock,
     disconnect,
     switchChain,
     error,
@@ -231,6 +264,7 @@ export function usePediscreenWallet() {
 
         if (useMock || !hasEthereum) {
           await new Promise((resolve) => setTimeout(resolve, MOCK_DELAY));
+          connectMock();
           setWallet({
             ...MOCK_WALLET_DATA.connected,
             status: "connected",
@@ -249,7 +283,7 @@ export function usePediscreenWallet() {
         }));
       }
     },
-    [connect],
+    [connect, connectMock],
   );
 
   const disconnectWallet = useCallback(() => {
@@ -269,6 +303,16 @@ export function usePediscreenWallet() {
 
   const switchToCreditcoin = useCallback(async () => {
     setWallet((prev) => ({ ...prev, status: "switching", error: null }));
+
+    if (isMock) {
+      setWallet((prev) => ({
+        ...prev,
+        chainId: CREDITCOIN_CHAIN_ID,
+        isCreditcoin: true,
+        status: "connected",
+      }));
+      return;
+    }
 
     const hasEthereum =
       typeof window !== "undefined" &&
@@ -292,7 +336,7 @@ export function usePediscreenWallet() {
         error: message || "Failed to switch network",
       }));
     }
-  }, [switchChain]);
+  }, [switchChain, isMock]);
 
   return {
     wallet,
