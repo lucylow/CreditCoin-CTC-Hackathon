@@ -1,6 +1,6 @@
 /**
- * PediScreen Oracle — read Chainlink-verified screening results from Polygon.
- * Frontend focuses on read/subscribe; backend + Chainlink Functions handle writes.
+ * PediScreen Oracle — read verified screening results from Creditcoin.
+ * Frontend focuses on read/subscribe; backend + oracle functions handle writes.
  */
 
 import { BrowserProvider, Contract, type Provider } from "ethers";
