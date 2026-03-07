@@ -151,8 +151,8 @@ export function DemoSection() {
         >
           <h2 className="section-title">Interactive Screening Demo</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mt-8">
-            Experience how PediScreen AI works in practice. This simulation shows how 
-            MedGemma processes multimodal inputs to provide developmental insights.
+            Experience how PediScreen works in practice. This simulation shows how 
+            AI processes multimodal inputs to provide developmental insights.
           </p>
           <div className="mt-6">
             <Button asChild variant="outline" size="lg" className="gap-2 rounded-xl">
@@ -579,7 +579,7 @@ export function DemoSection() {
                   Community Health Worker Workflow
                 </h3>
                 <p className="text-muted-foreground max-w-2xl mx-auto">
-                  Explore how CHWs use PediScreen AI in field settings with limited connectivity.
+                  Explore how CHWs use PediScreen in field settings with limited connectivity.
                 </p>
               </div>
               <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">

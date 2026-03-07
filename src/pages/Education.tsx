@@ -113,7 +113,7 @@ const Education = () => {
                 <AccordionItem value="item-3">
                   <AccordionTrigger>Which age groups are covered?</AccordionTrigger>
                   <AccordionContent>
-                    PediScreen AI currently supports developmental screening for children aged 0 to 72 months (6 years), covering major domains like motor skills, language, and social-emotional development.
+                    PediScreen currently supports developmental screening for children aged 0 to 72 months (6 years), covering major domains like motor skills, language, and social-emotional development.
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
