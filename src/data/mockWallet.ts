@@ -1,11 +1,11 @@
-// src/data/mockWallet.ts - Production-grade mock data + error states
+// src/data/mockWallet.ts - Mock data for Creditcoin hackathon demo
 export const MOCK_WALLET_DATA = {
   // Wallet states
   disconnected: {
     address: null,
     isConnected: false,
     chainId: null,
-    isPolygon: false,
+    isCreditcoin: false,
     ensName: null,
     balance: "0",
     status: "idle" as const,
@@ -14,10 +14,10 @@ export const MOCK_WALLET_DATA = {
   connected: {
     address: "0x742d35Cc6b6DBcF823d80ADa7017a40A9D0e6637",
     isConnected: true,
-    chainId: 137,
-    isPolygon: true,
-    ensName: "pediscreen.eth",
-    balance: "2.847",
+    chainId: 336,
+    isCreditcoin: true,
+    ensName: "pediscreen.ctc",
+    balance: "24.5",
     status: "connected" as const,
     error: null,
   },
@@ -25,14 +25,14 @@ export const MOCK_WALLET_DATA = {
     address: null,
     isConnected: false,
     chainId: null,
-    isPolygon: false,
+    isCreditcoin: false,
     ensName: null,
     balance: "0",
     status: "error" as const,
     error: "User rejected request",
   },
 
-  // Screening NFTs (Kaggle demo ready)
+  // Screening NFTs
   nfts: [
     {
       tokenId: 8472,
@@ -42,7 +42,7 @@ export const MOCK_WALLET_DATA = {
       verified: true,
       txHash: "0x1234abcd...efgh5678",
       childAgeMonths: 24,
-      timestamp: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
+      timestamp: Date.now() - 1000 * 60 * 60 * 2,
       keyFindings: ["On track for communication", "Strong fine motor skills"],
     },
     {
@@ -53,7 +53,7 @@ export const MOCK_WALLET_DATA = {
       verified: true,
       txHash: "0x5678efgh...ijkl9012",
       childAgeMonths: 18,
-      timestamp: Date.now() - 1000 * 60 * 60 * 24, // 1 day ago
+      timestamp: Date.now() - 1000 * 60 * 60 * 24,
       keyFindings: ["Monitor language development", "Social skills typical"],
     },
     {
@@ -64,7 +64,7 @@ export const MOCK_WALLET_DATA = {
       verified: false,
       txHash: "0x9abcijkl...mnop3456",
       childAgeMonths: 30,
-      timestamp: Date.now() - 1000 * 60 * 60 * 72, // 3 days ago
+      timestamp: Date.now() - 1000 * 60 * 60 * 72,
       keyFindings: ["Urgent speech therapy referral", "Motor skills delayed"],
     },
   ],
@@ -75,7 +75,7 @@ export const MOCK_WALLET_DATA = {
       id: 1,
       title: "PEDISC Treasury: Fund Hindi LoRA Adapter ($50K)",
       description:
-        "Enable 1.4M Indian ASHA workers with localized MedGemma screening.",
+        "Enable 1.4M Indian ASHA workers with localized screening.",
       support: 8472,
       against: 23,
       quorum: 10000,
@@ -106,7 +106,7 @@ export const MOCK_WALLET_DATA = {
     },
   ],
 
-  // Chainlink Oracle Verifications
+  // Oracle Verifications
   oracleVerifications: [
     {
       requestId: "0xabc123def456...789ghi012jkl",
@@ -114,7 +114,7 @@ export const MOCK_WALLET_DATA = {
       oracleMatch: true,
       confidenceMatch: 98.7,
       timestamp: Date.now() - 1000 * 60 * 2,
-      oracleNode: "Chainlink Node #47",
+      oracleNode: "Oracle Node #47",
     },
     {
       requestId: "0xdef456ghi789...012jkl345mno",
@@ -122,7 +122,7 @@ export const MOCK_WALLET_DATA = {
       oracleMatch: true,
       confidenceMatch: 95.2,
       timestamp: Date.now() - 1000 * 60 * 15,
-      oracleNode: "Chainlink Node #23",
+      oracleNode: "Oracle Node #23",
     },
     {
       requestId: "0xghi789jkl012...345mno678pqr",
@@ -130,8 +130,7 @@ export const MOCK_WALLET_DATA = {
       oracleMatch: false,
       confidenceMatch: 67.3,
       timestamp: Date.now() - 1000 * 60 * 45,
-      oracleNode: "Chainlink Node #91",
+      oracleNode: "Oracle Node #91",
     },
   ],
 };
-

@@ -101,16 +101,12 @@ export const BlockchainAnchorCard: React.FC<Props> = ({
     }
   };
 
-  const effectiveChainId = blockchainHints?.chainId ?? chainId ?? 80001;
+  const effectiveChainId = blockchainHints?.chainId ?? chainId ?? 337;
 
   const chainExplorerBase =
-    effectiveChainId === 80001
-      ? "https://mumbai.polygonscan.com/tx/"
-      : effectiveChainId === 80002
-        ? "https://www.oklink.com/amoy/tx/"
-        : effectiveChainId === 84532
-          ? "https://sepolia.basescan.org/tx/"
-          : "https://etherscan.io/tx/";
+    effectiveChainId === 336
+      ? "https://explorer.creditcoin.org/tx/"
+      : "https://testnet-explorer.creditcoin.org/tx/";
 
   const shortAccount =
     account && `${account.slice(0, 6)}...${account.slice(-4)}`;

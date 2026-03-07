@@ -1,9 +1,15 @@
 /**
  * PediScreen wallet connection (HIPAA blockchain, NFT mint, HealthChain).
- * Uses window.ethereum when available; for full WalletConnect/wagmi use pediscreen-dao-frontend or add wagmi to this app.
+ * Creditcoin hackathon: targets Creditcoin Mainnet (336) / Testnet (337).
  */
 import { useCallback, useEffect, useState } from "react";
-import { CHAIN_ID, getChainRpcUrl } from "@/config/blockchain";
+import {
+  CHAIN_ID,
+  getChainRpcUrl,
+  getChainName,
+  CREDITCOIN_MAINNET,
+  CREDITCOIN_TESTNET,
+} from "@/config/blockchain";
 import { MOCK_WALLET_DATA } from "@/data/mockWallet";
 
 declare global {
@@ -24,6 +30,18 @@ export interface UsePediScreenWalletResult {
   disconnect: () => void;
   switchChain: (targetChainId: number) => Promise<void>;
   error: string | null;
+}
+
+function getCreditcoinNetworkParams(targetChainId: number) {
+  if (targetChainId === 336) return CREDITCOIN_MAINNET;
+  if (targetChainId === 337) return CREDITCOIN_TESTNET;
+  return {
+    chainId: `0x${targetChainId.toString(16)}`,
+    chainName: `Chain ${targetChainId}`,
+    nativeCurrency: { name: "CTC", symbol: "CTC", decimals: 18 },
+    rpcUrls: [getChainRpcUrl(targetChainId)],
+    blockExplorerUrls: ["https://testnet-explorer.creditcoin.org/"],
+  };
 }
 
 export function usePediScreenWallet(): UsePediScreenWalletResult {
@@ -83,20 +101,10 @@ export function usePediScreenWallet(): UsePediScreenWalletResult {
     } catch (err: unknown) {
       const addChain = (err as { code?: number })?.code === 4902;
       if (addChain) {
+        const networkParams = getCreditcoinNetworkParams(targetChainId);
         await window.ethereum.request({
           method: "wallet_addEthereumChain",
-          params: [
-            {
-              chainId: hexChainId,
-              chainName:
-                targetChainId === 80002
-                  ? "Polygon Amoy"
-                  : targetChainId === 84532
-                    ? "Base Sepolia"
-                    : `Chain ${targetChainId}`,
-              rpcUrls: [getChainRpcUrl(targetChainId)],
-            },
-          ],
+          params: [networkParams],
         });
         setChainId(targetChainId);
       } else {
@@ -136,14 +144,14 @@ export function usePediScreenWallet(): UsePediScreenWalletResult {
 }
 
 // ---------------------------------------------------------------------------
-// Kaggle/demo-ready wallet wrapper with mock NFTs + richer status
+// Demo-ready wallet wrapper with mock NFTs + richer status (Creditcoin)
 // ---------------------------------------------------------------------------
 
 export interface WalletStatus {
   address: string | null;
   isConnected: boolean;
   chainId: number | null;
-  isPolygon: boolean;
+  isCreditcoin: boolean;
   ensName: string | null;
   balance: string;
   status: "idle" | "connecting" | "connected" | "error" | "switching";
@@ -162,11 +170,11 @@ export interface ScreeningNFT {
   keyFindings?: string[];
 }
 
-const POLYGON_CHAIN_ID = 137;
-const MOCK_DELAY = 1200; // Realistic network latency for demos
+const CREDITCOIN_CHAIN_ID = 336;
+const MOCK_DELAY = 1200;
 
 /**
- * Higher-level wallet hook used by Kaggle/demo blockchain flows.
+ * Higher-level wallet hook used by demo blockchain flows.
  * Wraps `usePediScreenWallet` (real MetaMask) but can also run in pure mock mode.
  */
 export function usePediscreenWallet() {
@@ -185,7 +193,7 @@ export function usePediscreenWallet() {
     address: null,
     isConnected: false,
     chainId: null,
-    isPolygon: false,
+    isCreditcoin: false,
     ensName: null,
     balance: "0",
     status: "idle",
@@ -193,15 +201,13 @@ export function usePediscreenWallet() {
   });
   const [screeningNFTs, setScreeningNFTs] = useState<ScreeningNFT[]>([]);
 
-  // Keep derived wallet state in sync with the base hook when not in mock error state.
   useEffect(() => {
     setWallet((prev) => ({
       ...prev,
       address,
       isConnected,
       chainId,
-      isPolygon: chainId === POLYGON_CHAIN_ID,
-      // Keep any demo balance unless we explicitly override.
+      isCreditcoin: chainId === CREDITCOIN_CHAIN_ID || chainId === 337,
       balance: prev.balance ?? "0",
       status: error
         ? "error"
@@ -224,7 +230,6 @@ export function usePediscreenWallet() {
           typeof (window as Window).ethereum !== "undefined";
 
         if (useMock || !hasEthereum) {
-          // Mock mode — perfect for Kaggle demos and offline runs.
           await new Promise((resolve) => setTimeout(resolve, MOCK_DELAY));
           setWallet({
             ...MOCK_WALLET_DATA.connected,
@@ -235,7 +240,6 @@ export function usePediscreenWallet() {
         }
 
         await connect();
-        // Real connection: base hook effect will populate address/chainId/status.
       } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         setWallet((prev) => ({
@@ -254,7 +258,7 @@ export function usePediscreenWallet() {
       address: null,
       isConnected: false,
       chainId: null,
-      isPolygon: false,
+      isCreditcoin: false,
       ensName: null,
       balance: "0",
       status: "idle",
@@ -263,7 +267,7 @@ export function usePediscreenWallet() {
     setScreeningNFTs([]);
   }, [disconnect]);
 
-  const switchToPolygon = useCallback(async () => {
+  const switchToCreditcoin = useCallback(async () => {
     setWallet((prev) => ({ ...prev, status: "switching", error: null }));
 
     const hasEthereum =
@@ -279,7 +283,7 @@ export function usePediscreenWallet() {
     }
 
     try {
-      await switchChain(POLYGON_CHAIN_ID);
+      await switchChain(CREDITCOIN_CHAIN_ID);
     } catch (e) {
       const message = e instanceof Error ? e.message : String(e);
       setWallet((prev) => ({
@@ -296,12 +300,9 @@ export function usePediscreenWallet() {
     setScreeningNFTs,
     connectWallet,
     disconnectWallet,
-    switchToPolygon,
-    // Simple refetch that rehydrates the mock NFT list — deterministic for demos.
+    switchToCreditcoin,
     refetchNFTs: () => setScreeningNFTs(MOCK_WALLET_DATA.nfts),
-    // Expose base hook flags for callers that need them.
     isConnected,
     baseAddress: address,
   };
 }
-

@@ -50,14 +50,10 @@ type InputMode = 'voice' | 'text' | 'image';
 
 function getChainLabel(chainId: number): string {
   switch (chainId) {
-    case 137:
-      return 'Polygon Mainnet';
-    case 80002:
-      return 'Polygon Amoy Testnet';
-    case 8453:
-      return 'Base Mainnet';
-    case 84532:
-      return 'Base Sepolia Testnet';
+    case 336:
+      return 'Creditcoin Mainnet';
+    case 337:
+      return 'Creditcoin Testnet';
     default:
       return `Chain ${chainId}`;
   }

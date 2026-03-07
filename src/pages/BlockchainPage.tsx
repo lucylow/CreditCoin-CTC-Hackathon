@@ -41,7 +41,7 @@ const BlockchainPage = () => {
             <h1 className="text-3xl font-bold">Blockchain & Web3</h1>
             <p className="text-muted-foreground text-lg">
               HIPAA-aligned screening records (on-chain hashes), screening NFTs, and
-              USDC micropayments on Polygon.
+              CTC micropayments on Creditcoin.
             </p>
             <div className="flex flex-wrap items-center gap-3 mt-1">
               <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -86,7 +86,7 @@ const BlockchainPage = () => {
               <Coins className="w-8 h-8 text-primary mb-4" />
               <h3 className="font-bold mb-2">Payments</h3>
               <p className="text-sm text-muted-foreground">
-                USDC micropayments (PaymentEscrow). DAO governance with PSDAOToken.
+                CTC micropayments (PaymentEscrow). DAO governance with PSDAOToken.
               </p>
             </CardContent>
           </Card>
@@ -123,7 +123,7 @@ const BlockchainPage = () => {
           </Link>
           <Link to="/pediscreen/blockchain-kaggle">
             <Button variant="outline" className="gap-2 rounded-xl">
-              Kaggle Demo Flow
+              Creditcoin Demo Flow
             </Button>
           </Link>
           <Link to="/pediscreen/oracle-dashboard">
