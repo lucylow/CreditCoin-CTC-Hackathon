@@ -4,7 +4,15 @@
  */
 import { useState, useEffect, useCallback } from "react";
 import { creditcoinService } from "@/lib/blockchain/mockService";
-import type { MockNFT, MockStakingPosition, MockAttestation } from "@/lib/blockchain/mockData";
+import type {
+  MockNFT,
+  MockStakingPosition,
+  MockAttestation,
+  MockUSCVerification,
+  MockDualChainAnchor,
+  MockCredalReputation,
+  MockDePINDevice,
+} from "@/lib/blockchain/mockData";
 
 // ── CTC Balance ──
 
@@ -101,6 +109,108 @@ export function useNetworkStats() {
   const refresh = useCallback(() => {
     setLoading(true);
     creditcoinService.getNetworkStats().then((data) => {
+      setStats(data);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+
+  return { stats, loading, refresh };
+}
+
+// ── USC Verifications ──
+
+export function useUSCVerifications() {
+  const [verifications, setVerifications] = useState<MockUSCVerification[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const refresh = useCallback(() => {
+    setLoading(true);
+    creditcoinService.getAllUSCVerifications().then((data) => {
+      setVerifications(data);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+
+  return { verifications, loading, refresh };
+}
+
+// ── Dual-Chain Anchors ──
+
+export function useDualChainAnchors() {
+  const [anchors, setAnchors] = useState<MockDualChainAnchor[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const refresh = useCallback(() => {
+    setLoading(true);
+    creditcoinService.getAllDualChainAnchors().then((data) => {
+      setAnchors(data);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+
+  return { anchors, loading, refresh };
+}
+
+// ── Credal CHW Reputations ──
+
+export function useCHWReputations() {
+  const [reputations, setReputations] = useState<MockCredalReputation[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const refresh = useCallback(() => {
+    setLoading(true);
+    creditcoinService.getAllCHWReputations().then((data) => {
+      setReputations(data);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+
+  return { reputations, loading, refresh };
+}
+
+// ── DePIN Devices ──
+
+export function useDePINDevices() {
+  const [devices, setDevices] = useState<MockDePINDevice[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const refresh = useCallback(() => {
+    setLoading(true);
+    creditcoinService.getDePINDevices().then((data) => {
+      setDevices(data);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+
+  return { devices, loading, refresh };
+}
+
+// ── DePIN Stats ──
+
+export function useDePINStats() {
+  const [stats, setStats] = useState<{
+    totalDevices: number;
+    onlineDevices: number;
+    totalDataAnchored: number;
+    pendingAnchors: number;
+    avgAnchorTime: string;
+    totalGasSpent: string;
+  } | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const refresh = useCallback(() => {
+    setLoading(true);
+    creditcoinService.getDePINStats().then((data) => {
       setStats(data);
       setLoading(false);
     });
