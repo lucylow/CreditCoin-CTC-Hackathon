@@ -111,7 +111,7 @@ export function useFedLearning(): UseFedLearningResult {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             round_id: round,
-            data_path,
+            data_path: dataPath,
             data_points: datapointCount,
           }),
         });
