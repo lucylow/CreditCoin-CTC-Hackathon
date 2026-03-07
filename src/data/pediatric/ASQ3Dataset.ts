@@ -1,7 +1,7 @@
 /**
  * ASQ-3 Complete Dataset — 14,400+ clinically validated cases
  * Ages 1–60 months, 5 domains, age-appropriate cutoffs per ASQ-3 tables.
- * Used for CHW training, Kaggle demos, and pediatric health data showcase.
+ * Used for CHW training, demos, and pediatric health data showcase.
  */
 
 export type ASQ3RiskLevel = "referral" | "urgent" | "monitor" | "ontrack";

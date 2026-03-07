@@ -1,4 +1,4 @@
-// src/components/MultiAgentHealthDashboard.tsx - Kaggle Gold Demo Ready
+// src/components/MultiAgentHealthDashboard.tsx - Production Demo Ready
 import { useState } from "react";
 import {
   useMultiAgentSystem,

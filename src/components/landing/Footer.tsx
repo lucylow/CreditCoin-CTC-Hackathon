@@ -33,12 +33,8 @@ export function Footer() {
               <span className="font-heading text-xl font-bold">PediScreen AI</span>
             </div>
             <p className="text-background/75 text-sm leading-relaxed mb-6">
-              A submission for The MedGemma Impact Challenge by Kaggle & Google Research.
+              AI-powered pediatric developmental screening on Creditcoin blockchain.
             </p>
-            <div className="inline-flex items-center gap-2 bg-background/10 backdrop-blur-sm px-4 py-2.5 rounded-xl text-sm border border-background/10">
-              <Trophy className="h-4 w-4" />
-              <span>MedGemma Impact Challenge 2026</span>
-            </div>
           </div>
 
           {/* Submission Links */}
@@ -115,7 +111,7 @@ export function Footer() {
 
         <div className="border-t border-background/20 pt-10 text-center">
           <p className="text-background/60 text-sm">
-            © 2026 Lucy Low | The MedGemma Impact Challenge Submission
+            © 2026 Lucy Low | PediScreen AI
           </p>
           <p className="text-background/50 text-xs mt-2 max-w-xl mx-auto">
             Medical Disclaimer: PediScreen AI is a screening aid, not a diagnostic tool.

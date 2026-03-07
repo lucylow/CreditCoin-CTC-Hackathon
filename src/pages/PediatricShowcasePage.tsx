@@ -19,7 +19,7 @@ export default function PediatricShowcasePage() {
           </h1>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
             50,000+ interactive ASQ-3 cases, WHO growth charts, immunization schedules, and
-            developmental workflows for CHW training and Kaggle demos.
+            developmental workflows for CHW training and demos.
           </p>
         </header>
 

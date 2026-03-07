@@ -109,7 +109,7 @@ export default function AboutPage() {
               <p className="text-sm text-muted-foreground text-center">
                 <strong className="text-foreground">Created by Lucy Low</strong>
                 <br />
-                A submission for the MedGemma Impact Challenge by Kaggle & Google Research.
+                AI-powered pediatric developmental screening on Creditcoin blockchain.
               </p>
             </CardContent>
           </Card>
