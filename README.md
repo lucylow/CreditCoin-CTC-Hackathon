@@ -1,10 +1,6 @@
 # PediScreen AI: Tokenized Pediatric Health Records on Creditcoin
 
 <div align="center">
-
-
-![](https://github.com/lucylow/CreditCoin-CTC-Hackathon/blob/main/Screenshot_7-3-2026_235135_remix.ethereum.org.jpeg?raw=true)
-
 **Turning Pediatric Screenings into Verifiable Real‑World Assets on Creditcoin**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -88,6 +84,9 @@ The current healthcare data infrastructure is broken—records are trapped in in
 ---
 
 ## 🏗️ Architecture Overview
+
+![](https://github.com/lucylow/CreditCoin-CTC-Hackathon/blob/main/Screenshot_7-3-2026_235135_remix.ethereum.org.jpeg?raw=true)
+
 
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────────┐
