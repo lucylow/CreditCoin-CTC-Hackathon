@@ -2,7 +2,8 @@
 
 <div align="center">
 
-![PediScreen AI Logo](https://via.placeholder.com/150x150/00D4B8/FFFFFF?text=PediScreen)
+
+![](https://github.com/lucylow/CreditCoin-CTC-Hackathon/blob/main/Screenshot_7-3-2026_235135_remix.ethereum.org.jpeg?raw=true)
 
 **Turning Pediatric Screenings into Verifiable Real‑World Assets on Creditcoin**
 
