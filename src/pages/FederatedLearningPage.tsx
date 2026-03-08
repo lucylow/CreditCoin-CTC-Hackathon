@@ -39,6 +39,7 @@ import {
   ShieldCheck,
   Star,
   Badge,
+  UserPlus,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -46,6 +47,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { useFedLearning } from "@/hooks/useFedLearning";
+import type { UseFedLearningResult } from "@/hooks/useFedLearning";
 import { usePediScreenWallet } from "@/hooks/usePediScreenWallet";
 import { useUSCVerifications, useDualChainAnchors, useCHWReputations, useDePINDevices, useDePINStats } from "@/hooks/useCreditcoinData";
 import { ConnectWalletButton } from "@/components/blockchain/ConnectWalletButton";
@@ -54,20 +56,9 @@ import { getChainName } from "@/config/blockchain";
 import { creditcoinService } from "@/lib/blockchain/mockService";
 import { toast } from "sonner";
 
-// ── Mock data ──
+// ── Mock data (static, for sidebar panels) ──
 
 const MOCK_ROUND = { number: 7, endsIn: "3 days", participants: 42, totalDataPoints: 18400 };
-
-const MOCK_REWARDS = {
-  totalEarned: 1250,
-  pending: 250,
-  history: [
-    { round: 7, earned: 250, status: "pending" },
-    { round: 6, earned: 340, status: "claimed" },
-    { round: 5, earned: 280, status: "claimed" },
-    { round: 4, earned: 380, status: "claimed" },
-  ],
-};
 
 const MOCK_CLIENTS = [
   { id: "0x742d…6637", name: "Hospital A", dataPoints: 1200, pedi: 12000, active: true },
@@ -76,18 +67,12 @@ const MOCK_CLIENTS = [
   { id: "0x9012…ijkl", name: "Research Lab D", dataPoints: 430, pedi: 4300, active: false },
 ];
 
-const MOCK_ACTIVITY = [
-  { time: "13:42", client: "0x742d…6637", points: 150, tx: "0xabcd…ef12" },
-  { time: "13:38", client: "0x8Ba1…BA72", points: 200, tx: "0xef12…3456" },
-  { time: "13:15", client: "0xAb58…eC9B", points: 80, tx: "0x7890…abcd" },
-  { time: "12:50", client: "0x742d…6637", points: 120, tx: "0x3456…7890" },
-  { time: "12:30", client: "0x9012…ijkl", points: 95, tx: "0x1234…5678" },
-];
-
-const MOCK_SUBMISSIONS = [
-  { round: 7, hash: "0xa1b2c3d4…", points: 124, reward: 1240, time: "2 hrs ago", status: "confirmed" },
-  { round: 7, hash: "0xe5f6g7h8…", points: 86, reward: 860, time: "5 hrs ago", status: "confirmed" },
-  { round: 6, hash: "0xi9j0k1l2…", points: 130, reward: 1300, time: "2 days ago", status: "confirmed" },
+const MOCK_ACTIVITY_INITIAL = [
+  { time: "13:42", client: "Hospital A", points: 150, tx: "0xabcd…ef12" },
+  { time: "13:38", client: "CHW Network B", points: 200, tx: "0xef12…3456" },
+  { time: "13:15", client: "Clinic C", points: 80, tx: "0x7890…abcd" },
+  { time: "12:50", client: "Hospital A", points: 120, tx: "0x3456…7890" },
+  { time: "12:30", client: "Research Lab D", points: 95, tx: "0x1234…5678" },
 ];
 
 type SidebarTab = "dashboard" | "clients" | "submissions" | "rewards" | "usc" | "dualchain" | "credal" | "depin" | "docs";
@@ -97,12 +82,21 @@ const FederatedLearningPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const wallet = usePediScreenWallet();
   const fedLearning = useFedLearning();
+  const [activityFeed, setActivityFeed] = useState(MOCK_ACTIVITY_INITIAL);
 
   const useMock = wallet.isMock || !wallet.isConnected;
   const isConnected = wallet.isConnected || useMock;
   const address = wallet.address ?? MOCK_WALLET_DATA.connected.address;
   const chainId = wallet.chainId ?? 337;
   const chainName = getChainName(chainId);
+
+  // When a submission happens, add to activity feed
+  const addActivity = (points: number) => {
+    const now = new Date();
+    const time = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
+    const hash = `0x${Array.from({ length: 4 }, () => Math.floor(Math.random() * 16).toString(16)).join("")}…${Array.from({ length: 4 }, () => Math.floor(Math.random() * 16).toString(16)).join("")}`;
+    setActivityFeed((prev) => [{ time, client: "You", points, tx: hash }, ...prev].slice(0, 15));
+  };
 
   return (
     <div className="min-h-screen bg-[hsl(var(--background))]">
@@ -117,6 +111,11 @@ const FederatedLearningPage = () => {
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-300 text-amber-700 dark:text-amber-300 font-medium">
                   🔥 Privacy-First
                 </span>
+                {fedLearning.isMock && (
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 border border-primary/30 text-primary font-medium">
+                    Demo Mode
+                  </span>
+                )}
               </h1>
               <p className="text-sm text-muted-foreground">
                 <Lock className="w-3 h-3 inline mr-1" />
@@ -141,10 +140,10 @@ const FederatedLearningPage = () => {
             >
               <span className="text-muted-foreground flex items-center gap-2">
                 <Activity className="w-3.5 h-3.5 text-primary" />
-                <strong className="text-foreground">Round #{MOCK_ROUND.number}</strong> — {MOCK_ROUND.endsIn} left to submit gradients
+                <strong className="text-foreground">Round #{fedLearning.currentRound ?? MOCK_ROUND.number}</strong> — {MOCK_ROUND.endsIn} left to submit gradients
               </span>
               <span className="text-muted-foreground">
-                {MOCK_ROUND.participants} participants • {MOCK_ROUND.totalDataPoints.toLocaleString()} data points
+                {MOCK_ROUND.participants} participants • {(MOCK_ROUND.totalDataPoints + fedLearning.totalDataPoints).toLocaleString()} data points
               </span>
             </motion.div>
           )}
@@ -226,10 +225,10 @@ const FederatedLearningPage = () => {
             {/* ── Main Content ── */}
             <main className="flex-1 min-w-0 space-y-6">
               <AnimatePresence mode="wait">
-                {activeTab === "dashboard" && <DashboardView key="dashboard" fedLearning={fedLearning} />}
-                {activeTab === "clients" && <ClientsView key="clients" />}
-                {activeTab === "submissions" && <SubmissionsView key="submissions" />}
-                {activeTab === "rewards" && <RewardsDetailView key="rewards" />}
+                {activeTab === "dashboard" && <DashboardView key="dashboard" fedLearning={fedLearning} onSubmit={addActivity} />}
+                {activeTab === "clients" && <ClientsView key="clients" fedLearning={fedLearning} />}
+                {activeTab === "submissions" && <SubmissionsView key="submissions" fedLearning={fedLearning} />}
+                {activeTab === "rewards" && <RewardsDetailView key="rewards" fedLearning={fedLearning} />}
                 {activeTab === "usc" && <USCVerificationView key="usc" />}
                 {activeTab === "dualchain" && <DualChainView key="dualchain" />}
                 {activeTab === "credal" && <CredalReputationView key="credal" />}
@@ -240,9 +239,9 @@ const FederatedLearningPage = () => {
 
             {/* ── Right Panel ── */}
             <aside className="hidden lg:block w-80 shrink-0 space-y-4">
-              <RewardsCard />
+              <RewardsCard fedLearning={fedLearning} />
               <ActiveClientsCard />
-              <ActivityFeedCard />
+              <ActivityFeedCard feed={activityFeed} />
             </aside>
           </div>
         )}
@@ -255,11 +254,10 @@ const FederatedLearningPage = () => {
 
 // ── Dashboard View ──
 
-function DashboardView({ fedLearning }: { fedLearning: ReturnType<typeof useFedLearning> }) {
+function DashboardView({ fedLearning, onSubmit }: { fedLearning: UseFedLearningResult; onSubmit: (pts: number) => void }) {
   const [datapoints, setDatapoints] = useState("124");
   const [gradientHash, setGradientHash] = useState("");
   const [generating, setGenerating] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
 
   const handleGenerate = async () => {
     setGenerating(true);
@@ -275,9 +273,9 @@ function DashboardView({ fedLearning }: { fedLearning: ReturnType<typeof useFedL
     if (!count || !gradientHash) return;
     const ok = await fedLearning.submitGradients(gradientHash, count);
     if (ok) {
-      toast.success("Gradients submitted!", { description: `${count} data points anchored on Creditcoin.` });
+      toast.success("Gradients submitted!", { description: `${count} data points → +${count * 10} $PEDI on Creditcoin.` });
+      onSubmit(count);
       setGradientHash("");
-      setShowPreview(false);
     } else {
       toast.error("Submission failed", { description: fedLearning.error || "Try again." });
     }
@@ -343,11 +341,11 @@ function DashboardView({ fedLearning }: { fedLearning: ReturnType<typeof useFedL
             </div>
             <div className="rounded-lg bg-muted/50 p-3">
               <p className="text-[10px] text-muted-foreground">Total Submissions</p>
-              <p className="text-sm font-bold text-foreground">3</p>
+              <p className="text-sm font-bold text-foreground">{fedLearning.submissions.length}</p>
             </div>
             <div className="rounded-lg bg-muted/50 p-3">
-              <p className="text-[10px] text-muted-foreground">Model Version</p>
-              <p className="text-sm font-mono text-foreground">fl-v2.1</p>
+              <p className="text-[10px] text-muted-foreground">Total Data Points</p>
+              <p className="text-sm font-bold text-foreground">{fedLearning.totalDataPoints.toLocaleString()}</p>
             </div>
           </div>
         </CardContent>
@@ -429,7 +427,11 @@ function DashboardView({ fedLearning }: { fedLearning: ReturnType<typeof useFedL
               disabled={fedLearning.loading || !gradientHash || !parseInt(datapoints)}
               className="gap-2"
             >
-              {fedLearning.loading ? "Submitting…" : (
+              {fedLearning.loading ? (
+                <span className="flex items-center gap-1">
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Submitting…
+                </span>
+              ) : (
                 <>
                   <Send className="w-3.5 h-3.5" />
                   Submit to Creditcoin
@@ -448,12 +450,12 @@ function DashboardView({ fedLearning }: { fedLearning: ReturnType<typeof useFedL
           <div className="pt-2">
             <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
               <span>Your contributions this round</span>
-              <span className="font-medium text-foreground">3 / ∞</span>
+              <span className="font-medium text-foreground">{fedLearning.submissions.filter(s => s.round === (fedLearning.currentRound ?? 7)).length} / ∞</span>
             </div>
             <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
-                animate={{ width: "60%" }}
+                animate={{ width: `${Math.min(100, fedLearning.submissions.filter(s => s.round === (fedLearning.currentRound ?? 7)).length * 20)}%` }}
                 transition={{ duration: 1 }}
                 className="h-full bg-primary rounded-full"
               />
@@ -467,7 +469,28 @@ function DashboardView({ fedLearning }: { fedLearning: ReturnType<typeof useFedL
 
 // ── Clients View ──
 
-function ClientsView() {
+function ClientsView({ fedLearning }: { fedLearning: UseFedLearningResult }) {
+  const [registering, setRegistering] = useState(false);
+  const [newClientName, setNewClientName] = useState("");
+  const [showRegForm, setShowRegForm] = useState(false);
+
+  const handleRegister = async () => {
+    if (!newClientName.trim()) {
+      toast.error("Enter a client name");
+      return;
+    }
+    setRegistering(true);
+    const ok = await fedLearning.registerClient();
+    if (ok) {
+      toast.success("Client registered!", { description: `"${newClientName}" is now a training client.` });
+      setNewClientName("");
+      setShowRegForm(false);
+    } else {
+      toast.error("Registration failed");
+    }
+    setRegistering(false);
+  };
+
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
       <h2 className="text-lg font-semibold text-foreground">My Registered Clients</h2>
@@ -485,27 +508,75 @@ function ClientsView() {
           </div>
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="rounded-lg bg-muted/50 p-3">
-              <p className="text-lg font-bold text-foreground">340</p>
+              <p className="text-lg font-bold text-foreground">{fedLearning.totalDataPoints.toLocaleString()}</p>
               <p className="text-[10px] text-muted-foreground">Data Points</p>
             </div>
             <div className="rounded-lg bg-muted/50 p-3">
-              <p className="text-lg font-bold text-foreground">3</p>
+              <p className="text-lg font-bold text-foreground">{fedLearning.submissions.length}</p>
               <p className="text-[10px] text-muted-foreground">Submissions</p>
             </div>
             <div className="rounded-lg bg-muted/50 p-3">
-              <p className="text-lg font-bold text-amber-600">3,400</p>
+              <p className="text-lg font-bold text-amber-600">{fedLearning.totalEarned.toLocaleString()}</p>
               <p className="text-[10px] text-muted-foreground">$PEDI Earned</p>
             </div>
           </div>
+
+          {/* Additional registered clients */}
+          {fedLearning.registeredClients > 1 && (
+            <div className="mt-4 space-y-2">
+              {Array.from({ length: fedLearning.registeredClients - 1 }, (_, i) => (
+                <div key={i} className="flex items-center gap-3 p-2 bg-muted/30 rounded-lg border border-border">
+                  <Cpu className="w-4 h-4 text-primary" />
+                  <div className="flex-1">
+                    <p className="text-xs font-medium text-foreground">Client #{i + 2}</p>
+                    <p className="text-[10px] text-muted-foreground font-mono">device-{Math.random().toString(36).slice(2, 8)}</p>
+                  </div>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 font-semibold">Active</span>
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
+
+      {/* Register new client */}
       <Card>
-        <CardContent className="pt-6 text-center text-sm text-muted-foreground py-8">
-          <Cpu className="w-8 h-8 mx-auto text-muted-foreground/50 mb-2" />
-          <p>Register additional training clients from other devices.</p>
-          <Button variant="outline" size="sm" className="mt-3 gap-1">
-            <Zap className="w-3.5 h-3.5" /> Register New Client
-          </Button>
+        <CardContent className="pt-6">
+          {!showRegForm ? (
+            <div className="text-center text-sm text-muted-foreground py-4">
+              <Cpu className="w-8 h-8 mx-auto text-muted-foreground/50 mb-2" />
+              <p>Register additional training clients from other devices.</p>
+              <Button variant="outline" size="sm" className="mt-3 gap-1" onClick={() => setShowRegForm(true)}>
+                <UserPlus className="w-3.5 h-3.5" /> Register New Client
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-foreground">Register a New Training Client</p>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Client Name</Label>
+                <Input
+                  placeholder="e.g., Clinic Workstation 2"
+                  value={newClientName}
+                  onChange={(e) => setNewClientName(e.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Device ID</Label>
+                <Input value={`dev-${Math.random().toString(36).slice(2, 10)}`} readOnly className="font-mono text-xs bg-muted/50" />
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" onClick={handleRegister} disabled={registering} className="gap-1">
+                  {registering ? (
+                    <><RefreshCw className="w-3 h-3 animate-spin" /> Registering…</>
+                  ) : (
+                    <><CheckCircle className="w-3 h-3" /> Register</>
+                  )}
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => setShowRegForm(false)}>Cancel</Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </motion.div>
@@ -514,49 +585,86 @@ function ClientsView() {
 
 // ── Submissions View ──
 
-function SubmissionsView() {
+function SubmissionsView({ fedLearning }: { fedLearning: UseFedLearningResult }) {
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
-      <h2 className="text-lg font-semibold text-foreground">Submission History</h2>
-      <div className="space-y-3">
-        {MOCK_SUBMISSIONS.map((s, i) => (
-          <Card key={i}>
-            <CardContent className="pt-5">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-medium text-foreground">{s.hash}</span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 font-semibold">
-                      ✓ {s.status}
-                    </span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Round #{s.round} • {s.points} data points • {s.time}
-                  </p>
-                </div>
-                <div className="text-right shrink-0">
-                  <p className="font-bold text-amber-600 text-sm">+{s.reward} $PEDI</p>
-                  <a
-                    href="https://testnet-explorer.creditcoin.org/tx/0x1234"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[10px] text-primary hover:underline inline-flex items-center gap-0.5"
-                  >
-                    View tx <ArrowUpRight className="w-2.5 h-2.5" />
-                  </a>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-foreground">Submission History</h2>
+        <span className="text-xs text-muted-foreground">{fedLearning.submissions.length} total</span>
       </div>
+      {fedLearning.submissions.length === 0 ? (
+        <Card>
+          <CardContent className="pt-6 text-center text-sm text-muted-foreground py-8">
+            <Send className="w-8 h-8 mx-auto text-muted-foreground/50 mb-2" />
+            <p>No submissions yet. Go to Dashboard to run training and submit gradients.</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="space-y-3">
+          {fedLearning.submissions.map((s) => (
+            <Card key={s.id}>
+              <CardContent className="pt-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs font-medium text-foreground">{s.hash.slice(0, 18)}…</span>
+                      <span className={cn(
+                        "text-[10px] px-1.5 py-0.5 rounded-full font-semibold",
+                        s.status === "confirmed" ? "bg-emerald-500/10 text-emerald-600" : "bg-amber-500/10 text-amber-600"
+                      )}>
+                        {s.status === "confirmed" ? "✓ confirmed" : "⏳ pending"}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Round #{s.round} • {s.points} data points • {s.time}
+                    </p>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <p className="font-bold text-amber-600 text-sm">+{s.reward.toLocaleString()} $PEDI</p>
+                    <a
+                      href="https://testnet-explorer.creditcoin.org/tx/0x1234"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[10px] text-primary hover:underline inline-flex items-center gap-0.5"
+                    >
+                      View tx <ArrowUpRight className="w-2.5 h-2.5" />
+                    </a>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 }
 
 // ── Rewards Detail View ──
 
-function RewardsDetailView() {
+function RewardsDetailView({ fedLearning }: { fedLearning: UseFedLearningResult }) {
+  const [claiming, setClaiming] = useState(false);
+
+  const handleClaim = async () => {
+    setClaiming(true);
+    const ok = await fedLearning.claimRewards();
+    if (ok) {
+      toast.success("Rewards claimed!", { description: `All pending $PEDI has been transferred to your wallet.` });
+    } else {
+      toast.error("Claim failed", { description: "Try again later." });
+    }
+    setClaiming(false);
+  };
+
+  // Group submissions by round for history
+  const roundMap = new Map<number, number>();
+  fedLearning.submissions.forEach((s) => {
+    roundMap.set(s.round, (roundMap.get(s.round) || 0) + s.reward);
+  });
+  const history = Array.from(roundMap.entries())
+    .sort((a, b) => b[0] - a[0])
+    .map(([round, earned]) => ({ round, earned, status: round === (fedLearning.currentRound ?? 7) ? "pending" : "claimed" }));
+
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
       <h2 className="text-lg font-semibold text-foreground">$PEDI Rewards</h2>
@@ -564,16 +672,25 @@ function RewardsDetailView() {
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardContent className="pt-5 text-center">
-            <p className="text-3xl font-bold text-amber-600">{MOCK_REWARDS.totalEarned.toLocaleString()}</p>
+            <p className="text-3xl font-bold text-amber-600">{fedLearning.totalEarned.toLocaleString()}</p>
             <p className="text-xs text-muted-foreground">Total $PEDI Earned</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-5 text-center">
-            <p className="text-3xl font-bold text-foreground">{MOCK_REWARDS.pending}</p>
+            <p className="text-3xl font-bold text-foreground">{fedLearning.pending.toLocaleString()}</p>
             <p className="text-xs text-muted-foreground">Pending (current round)</p>
-            <Button size="sm" className="mt-2 text-xs gap-1" disabled={MOCK_REWARDS.pending === 0}>
-              <Gift className="w-3 h-3" /> Claim
+            <Button
+              size="sm"
+              className="mt-2 text-xs gap-1"
+              disabled={fedLearning.pending === 0 || claiming}
+              onClick={handleClaim}
+            >
+              {claiming ? (
+                <><RefreshCw className="w-3 h-3 animate-spin" /> Claiming…</>
+              ) : (
+                <><Gift className="w-3 h-3" /> Claim</>
+              )}
             </Button>
           </CardContent>
         </Card>
@@ -585,10 +702,10 @@ function RewardsDetailView() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {MOCK_REWARDS.history.map((h, i) => (
+            {history.map((h, i) => (
               <div key={i} className="flex items-center justify-between text-xs py-2 border-b border-border last:border-0">
                 <span className="text-muted-foreground">Round #{h.round}</span>
-                <span className="font-bold text-amber-600">+{h.earned} $PEDI</span>
+                <span className="font-bold text-amber-600">+{h.earned.toLocaleString()} $PEDI</span>
                 <span className={cn(
                   "text-[10px] px-1.5 py-0.5 rounded-full font-semibold",
                   h.status === "claimed"
@@ -1101,7 +1218,26 @@ function DocsView() {
 
 // ── Right Panel Cards ──
 
-function RewardsCard() {
+function RewardsCard({ fedLearning }: { fedLearning: UseFedLearningResult }) {
+  const [claiming, setClaiming] = useState(false);
+
+  const handleClaim = async () => {
+    setClaiming(true);
+    const ok = await fedLearning.claimRewards();
+    if (ok) {
+      toast.success("Rewards claimed!");
+    }
+    setClaiming(false);
+  };
+
+  // Group by round for mini chart
+  const roundMap = new Map<number, number>();
+  fedLearning.submissions.forEach((s) => {
+    roundMap.set(s.round, (roundMap.get(s.round) || 0) + s.reward);
+  });
+  const chartData = Array.from(roundMap.entries()).sort((a, b) => a[0] - b[0]).slice(-5);
+  const maxReward = Math.max(...chartData.map(([, r]) => r), 1);
+
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -1112,35 +1248,46 @@ function RewardsCard() {
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="text-center py-2">
-          <p className="text-3xl font-bold text-amber-600">{MOCK_REWARDS.totalEarned.toLocaleString()}</p>
+          <p className="text-3xl font-bold text-amber-600">{fedLearning.totalEarned.toLocaleString()}</p>
           <p className="text-[10px] text-muted-foreground">Total $PEDI earned</p>
         </div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-muted-foreground">Pending</span>
-          <span className="font-bold text-foreground">{MOCK_REWARDS.pending} $PEDI</span>
+          <span className="font-bold text-foreground">{fedLearning.pending.toLocaleString()} $PEDI</span>
         </div>
-        <Button size="sm" className="w-full gap-1 text-xs" disabled={MOCK_REWARDS.pending === 0}>
-          <Gift className="w-3 h-3" /> Claim Rewards
+        <Button
+          size="sm"
+          className="w-full gap-1 text-xs"
+          disabled={fedLearning.pending === 0 || claiming}
+          onClick={handleClaim}
+        >
+          {claiming ? (
+            <><RefreshCw className="w-3 h-3 animate-spin" /> Claiming…</>
+          ) : (
+            <><Gift className="w-3 h-3" /> Claim Rewards</>
+          )}
         </Button>
         <p className="text-[10px] text-muted-foreground text-center">10 $PEDI per data point</p>
 
         {/* Mini chart */}
-        <div className="pt-2">
-          <p className="text-[10px] text-muted-foreground mb-1">Earnings by round</p>
-          <div className="flex items-end gap-1 h-12">
-            {MOCK_REWARDS.history.slice().reverse().map((h, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-0.5">
-                <motion.div
-                  initial={{ height: 0 }}
-                  animate={{ height: `${(h.earned / 400) * 100}%` }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="w-full bg-amber-500/30 rounded-t"
-                />
-                <span className="text-[8px] text-muted-foreground">R{h.round}</span>
-              </div>
-            ))}
+        {chartData.length > 0 && (
+          <div className="pt-2">
+            <p className="text-[10px] text-muted-foreground mb-1">Earnings by round</p>
+            <div className="flex items-end gap-1 h-12">
+              {chartData.map(([round, reward], i) => (
+                <div key={round} className="flex-1 flex flex-col items-center gap-0.5">
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ height: `${(reward / maxReward) * 100}%` }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    className="w-full bg-amber-500/30 rounded-t"
+                  />
+                  <span className="text-[8px] text-muted-foreground">R{round}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );
@@ -1173,7 +1320,7 @@ function ActiveClientsCard() {
   );
 }
 
-function ActivityFeedCard() {
+function ActivityFeedCard({ feed }: { feed: typeof MOCK_ACTIVITY_INITIAL }) {
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -1182,23 +1329,21 @@ function ActivityFeedCard() {
           Live Submissions
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2">
-        {MOCK_ACTIVITY.map((a, i) => (
-          <div key={i} className="flex items-start gap-2 text-xs">
+      <CardContent className="space-y-2 max-h-64 overflow-y-auto">
+        {feed.map((a, i) => (
+          <motion.div
+            key={`${a.time}-${a.tx}-${i}`}
+            initial={i === 0 ? { opacity: 0, y: -10 } : {}}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-start gap-2 text-xs"
+          >
             <span className="text-muted-foreground text-[10px] w-10 shrink-0">[{a.time}]</span>
             <div className="flex-1">
-              <span className="font-mono text-foreground">{a.client}</span>
+              <span className={cn("font-mono text-foreground", a.client === "You" && "text-primary font-semibold")}>{a.client}</span>
               <span className="text-muted-foreground"> submitted {a.points} pts</span>
             </div>
-            <a
-              href={`https://testnet-explorer.creditcoin.org/tx/${a.tx}`}
-              target="_blank"
-              rel="noreferrer"
-              className="text-primary hover:underline text-[10px] font-mono shrink-0"
-            >
-              {a.tx}
-            </a>
-          </div>
+            <span className="text-primary text-[10px] font-mono shrink-0">{a.tx}</span>
+          </motion.div>
         ))}
       </CardContent>
     </Card>
